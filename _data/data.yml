@@ -121,56 +121,41 @@ experiences:
       details: |
           - Developed a low overhead monitoring framework to evaluate application 
           performance in production machines using event data.
-           
 
+    - role: C# ASP.Net Developer
+      time: 2010 - 2012
+      company: Citi Group, Dallas
+      details: |
+          - Develop applications for home mortgages.
+          - Develop a thorough understanding of business specifications and produce financial applications.
+          - Provide status on the progress of the development effort to development management.
+          
+    - role: Database and Windows Server Administrator
+      time: Summer 2016
+      company: Sandia National Laboratories, Albuquerque
+      details: |
+          - Develop Laptops repair tracking system using C# with SQL server.
+          - Desktop and laptop installation and problem resolution in a Windows XP environment.
 
 projects:
     title: Projects
-    intro: >
-      You can list your side projects or open source libraries in this
-      section. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum et ligula in nunc bibendum fringilla a eu lectus.
-
+    intro: 
+    
     assignments:
       - title: Velocity
         link: "#hook"
         tagline: "A responsive website template designed to help startups promote, market and sell their products."
 
-      - title: DevStudio
-        link: "#"
-        tagline: "A responsive website template designed to help web developers/designers market their services."
-
-      - title: Tempo
-        link: "#"
-        tagline: "A responsive website template designed to help startups promote their products or services and to attract users &amp; investors"
-
-      - title: Atom
-        link: "#"
-        tagline: "A comprehensive website template solution for startups/developers to market their mobile apps."
-
-      - title: Delta
-        link: "#"
-        tagline: "A responsive Bootstrap one page theme designed to help app developers promote their mobile apps"
-
+    
 publications:
     title: Publications
-    intro: |
-      You can list your publications in this section. Lorem ipsum dolor sit
-      amet, consectetur adipiscing elit. Vestibulum et ligula in nunc
-      bibendum fringilla a eu lectus.
+    intro: 
 
     papers:
-      - title: The Art of Computer Programming
-        authors: Donald E. Knuth
-        conference: Addison-Wesley, 1968
+    - title: "Monitoring HPC applications in the production environment" 
+    - authors: "Sharifi, Hadi, Omar Aaziz, and Jonathan Cook"
+    - conference: "Proceedings of the 2nd Workshop on Parallel Programming for Analytics Applications. ACM, 2015"
 
-      - title: "Genetic Programming III: Darwinian Invention &amp; Problem Solving"
-        authors: Koza, J.R., Andre, D., Bennett, F.H., Keane, M.A.
-        conference: "Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 1st edn. (1999)"
-
-      - title: A syntax directed compiler for Algol 60
-        authors: Edgar T. Irons
-        conference: "Comm. ACM 4 (1961), 51–55"
 
 skills:
     title: Skills &amp; Proficiency
