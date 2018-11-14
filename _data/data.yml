@@ -70,7 +70,7 @@ experiences:
           - Creating a benchmark and tool suite of codes. 
           - System administration and optimizing applications in a Linux-based HPC enviroment.
 
-    - role: Intern
+    - role: Year-Round Intern
       time: 2017 - 2018
       company: Sandia National Laboratories, Albuquerque
       details: |
@@ -82,8 +82,25 @@ experiences:
           - Studied the behavior patterns of parallel scientific applications using 
           statistical and numerical techniques.
 
+    - role: HPC Engineer
+      time: 2014 - 2017
+      company: New Mexico state university, Las Cruces
+      details: |
+          - Supported the department production cluster and managed nearly 100 active users with 20000 jobs annually.
+          - Managed builds, configurations, deployments, and troubleshot of nearly 120 parallel scientific applications and benchmarks.
+          - Addressed problems in users parallel applications and run configurations and tuned it to gain approximately 15% increase in application runtime performance.
+          - Deployed 23 compilers, 12 third party tools, and packages and make it available to the cluster users using modules.
+          - Developed CUDA applications to simulate the temperature distribution from a central source.
+          - Developed an MPI+OpenMP application to simulate the water flow under the earth surface.
+          - Developed nearly 12 MPI applications to solve variety of scientific problems.
+          - Created approximately 35 R-scripts to analyze large amount of data.
+          - Created around 100 scripts for automation, monitoring and testing using Shell, Python, and Perl.
+          - Managed one MongoDB, and two SQL databases with 2 TB of data.
+          - Initialized and configured newly installed 120 TB storage using RAID 6.
+          - Initialized and configured newly installed 16 TB storage using RAID 1.
+
     - role: Research Assistant
-      time: 2015 - 2017
+      time: 2012 - 2017
       company: New Mexico state university, Las Cruces
       details: |
           - Studied the behavior patterns of parallel scientific applications using 
@@ -93,6 +110,19 @@ experiences:
           performance drawbacks.
            - Desing and implemented a framework to automatically monitor and predict the 
            performance, load balance of parallel applications.
+           - Designed a production monitoring framework that is capable of collecting 
+          performance data from applications run on large scale clusters. Also measured 
+          the impact of the message size on the MPI applications communication 
+          performance.
+
+    - role: Summer Intern
+      time: Summer 2016
+      company: Sandia National Laboratories, Albuquerque
+      details: |
+          - Developed a low overhead monitoring framework to evaluate application 
+          performance in production machines using event data.
+           
+
 
 projects:
     title: Projects
