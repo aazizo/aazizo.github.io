@@ -154,7 +154,8 @@ publications:
     papers:
     - title: "Monitoring HPC applications in the production environment" 
     - authors: "Sharifi, Hadi, Omar Aaziz, and Jonathan Cook"
-    - conference: "Proceedings of the 2nd Workshop on Parallel Programming for Analytics Applications. ACM, 2015"
+    - conference: "Proceedings of the 2nd Workshop on Parallel Programming for Analytics 
+    Applications. ACM, 2015"
 
 
 skills:
