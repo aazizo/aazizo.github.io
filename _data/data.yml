@@ -156,6 +156,14 @@ publications:
     - authors: Hadi Sharifi, Omar Aaziz, and Jonathan Cook
     - conference: Proceedings of the 2nd Workshop on Parallel Programming for Analytics 
     Applications. ACM, 2015
+    
+    - title: Push me pull you - Integrating opposing data transport modes for efficient hpc application monitoring
+    - authors: Omar Aaziz, Jonathan Cook, and Hadi Sharifi
+    - conference: Cluster Computing (CLUSTER), 2015 IEEE International Conference on. IEEE, 2015
+    
+    - title: Automatically Instrumenting Scientific Applications to Produce Heartbeat Events
+    - authors: Mohammed Tanash, Nasim Ghazanfari, Omar Aaziz, and Jonathan Cook
+    - conference: Parallel and Distributed Processing Symposium Workshops, 2016 IEEE International
 
 
 skills:
