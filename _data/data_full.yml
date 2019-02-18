@@ -1,0 +1,153 @@
+#
+# Be aware that even a small syntax error here can lead to failures in output. 
+#
+
+sidebar:
+    about: False # set to False or comment line if you want to remove the "how to use?" in the sidebar
+    education: True # set to False if you want education in main section instead of in sidebar
+
+    # Profile information
+    name: Omar Aaziz
+    tagline: Sr. Software Engineer
+    avatar: profile.png  #place a 100x100 picture inside /assets/images/ folder and provide the name of the file below
+
+    # Sidebar links
+    email: omarraad.aaziz@gmail.com
+    phone: 
+    website: aazizo.github.io #do not add http://
+    linkedin: 
+    github: 
+    gitlab: 
+    bitbucket:
+    twitter: 
+    stack-overflow: # Number/Username, e.g. 123456/alandoe
+    codewars:
+
+    languages:
+      - idiom: Arabic
+        level: Native
+
+      - idiom: English
+        level: Professional
+        
+    interests:
+      - item: Running
+        link:
+
+      - item: Basketball
+        link:
+
+      - item: Hiking
+        link:
+
+      # predict application runtime using hardware counters in large-scale production clusters. 
+career-profile:
+    title: Career Profile
+    summary: |
+      I am currently an R&D Senior Software Engineer at Sandia National Laboratories,
+      I received a B.S. in Computer Science from Al-Rafidain University from Iraq in 2000, 
+      and an M.S. in Computer Science from Baghdad University in 2003 and a Ph.D. 
+      from New Mexico State University in 2018. I worked at Baghdad University in Baghdad-Iraq, 
+      eventually as an instructor from 2003 to 2009. My research interests are in 
+      High-Performance Computing (HPC), specifically in dynamic analysis, application 
+      performance, and runtime monitoring. In the HPC arena, I developed a several statistical module 
+      to improve the scientafic application performance.
+      My current research focuses on studying the increase of the overall utility of 
+      expensive HPC resources in a scientific application and analyze the behavior
+      patterns of parallel applications using statistical and numerical techniques.
+       
+
+education:
+    - degree: PhD in Computer Science
+      university: New Mexico State University
+      time: 2012 - 2018
+      details: 
+
+    - degree: MSc in Computer Science
+      university: Baghdad University
+      time: 2000 - 2003
+      details: 
+
+experiences:
+    - role: Sr. Software Engineer
+      time: 2018 - Present
+      company: Sandia National Laboratories, Albuquerque
+      details: |
+          - Supporting Sandia National Laboratories High-Performance Computing strategic roadmap
+          - Co-developing the LDMS monitoring framework, which has a potential saving of the computing resources in HPC
+          - Member of the ECP project, collabirating with 5 National Labs to imporve the proxy applications algorihm performance
+          - Working with 12 researchers from Sandia national labs and 4 universities to design and implement a new HPC end-to-end monitoring methodologies
+          - Collaborating with researchers from Sandia Labs and NMSU to understand how well a proxy application predicts the comprehensive performance of its parent scientific application
+          - Evaluating current and future HPC system architectures performance
+          - System administration and optimizing applications in a Linux-based HPC enviroment
+          - Created several machine learning and a statical modules using python and R
+          - Built and ran around 35 scientific applications from various scientific fields on different architecture HPC machines
+
+
+    - role: Year-Round Intern
+      time: 2017 - 2018
+      company: Sandia National Laboratories, Albuquerque
+      details: |
+          - Created data-driven methodology for characterizing the relationship between 
+          real and proxy applications based on collecting runtime data from both and then 
+          using data analytics to find their correspondence and divergence
+          - Developed a statical module to predict application runtime using hardware 
+          counters in large scale production clusters.
+          - Studied the behavior patterns of parallel scientific applications using 
+          statistical and numerical techniques.
+
+    - role: HPC Engineer
+      time: 2014 - 2017
+      company: New Mexico state university, Las Cruces
+      details: |
+          - Supported the department production cluster and managed nearly 100 active users with 20000 jobs annually.
+          - Managed builds, configurations, deployments, and troubleshot of nearly 120 parallel scientific applications and benchmarks.
+          - Addressed problems in users parallel applications and run configurations and tuned it to gain approximately 15% increase in application runtime performance.
+          - Deployed 23 compilers, 12 third party tools, and packages and make it available to the cluster users using modules.
+          - Developed CUDA applications to simulate the temperature distribution from a central source.
+          - Developed an MPI+OpenMP application to simulate the water flow under the earth surface.
+          - Developed nearly 12 MPI applications to solve variety of scientific problems.
+          - Created approximately 35 R-scripts to analyze large amount of data.
+          - Created around 100 scripts for automation, monitoring and testing using Shell, Python, and Perl.
+          - Managed one MongoDB, and two SQL databases with 2 TB of data.
+          - Initialized and configured newly installed 120 TB storage using RAID 6.
+          - Initialized and configured newly installed 16 TB storage using RAID 1.
+
+    - role: Research Assistant
+      time: 2012 - 2017
+      company: New Mexico state university, Las Cruces
+      details: |
+          - Studied the behavior patterns of parallel scientific applications using 
+          statistical and numerical techniques.
+          - Created a new mechanism to collect hardware counters from applications 
+          running on production clusters with less than 1% runtime overhead to discover 
+          performance drawbacks.
+           - Desing and implemented a framework to automatically monitor and predict the 
+           performance, load balance of parallel applications.
+           - Designed a production monitoring framework that is capable of collecting 
+          performance data from applications run on large scale clusters. Also measured 
+          the impact of the message size on the MPI applications communication 
+          performance.
+
+    - role: Summer Intern
+      time: Summer 2016
+      company: Sandia National Laboratories, Albuquerque
+      details: |
+          - Developed a low overhead monitoring framework to evaluate application 
+          performance in production machines using event data.
+
+    - role: Software Engineer
+      time: 2010 - 2012
+      company: Citi Group, Dallas
+      details: |
+          - Develop applications for home mortgages.
+          - Develop a thorough understanding of business specifications and produce financial applications.
+          - Provide status on the progress of the development effort to development management.
+          
+    - role: Software Engineer
+      time: Summer 2016
+      company: Sandia National Laboratories, Albuquerque
+      details: |
+          - Develop Laptops repair tracking system using C# with SQL server.
+          - Desktop and laptop installation and problem resolution in a Windows XP environment.
+
