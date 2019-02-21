@@ -49,8 +49,8 @@ career-profile:
       from New Mexico State University in 2018. I worked at Baghdad University in Baghdad-Iraq, 
       eventually as an instructor from 2003 to 2009. My research interests are in 
       High-Performance Computing (HPC), specifically in dynamic analysis, application 
-      performance, and runtime monitoring. In the HPC arena, I developed a several statistical module 
-      to improve the scientafic application performance.
+      performance, and runtime monitoring. In the HPC arena, I developed several statistical 
+      modules to improve scientific application performance.
       My current research focuses on studying the increase of the overall utility of 
       expensive HPC resources in a scientific application and analyze the behavior
       patterns of parallel applications, using statistical and numerical techniques.
@@ -72,12 +72,12 @@ experiences:
       time: 2018 - Present
       company: Sandia National Laboratories, Albuquerque
       details: |
-          - Supporting Sandia National Laboratories High-Performance Computing strategic roadmap
-          - Co-developing the LDMS monitoring framework, which has a potential saving of the computing resources in HPC
-          - Member of the ECP project, collabirating with 5 National Labs to imporve the proxy applications algorihm performance
-          - Working with 12 researchers from Sandia national labs and 4 universities to design and implement a new HPC end-to-end monitoring methodologies
-          - Collaborating with researchers from Sandia Labs and NMSU to understand how well a proxy application predicts the comprehensive performance of its parent scientific application
-          - Evaluating current and future HPC system architectures performance
-          - System administration and optimizing applications in a Linux-based HPC enviroment
-          - Created several machine learning and a statical modules using python and R
-          - Built and ran around 35 scientific applications from various scientific fields on different architecture HPC machines
+        - Supporting Sandia National Laboratories High-Performance Computing strategic roadmap
+        - Co-developing the LDMS monitoring framework, which has a potential saving of the computing resources in HPC
+        - Member of the ECP project, collaborating with 5 National Labs to improve the proxy applications algorithm performance
+        - Working with 12 researchers from Sandia national labs and four universities to design and implement a new HPC end-to-end monitoring methodologies
+        - Collaborating with researchers from Sandia Labs and NMSU to understand how well a proxy application predicts the comprehensive performance of its parent scientific application
+        - Evaluating current and future HPC system architectures performance
+        - System administration and optimizing applications in a Linux-based HPC environment
+        - Created several machine learning and statical modules using python and R
+        - Built and ran around 35 scientific applications from various scientific fields on different architecture HPC machines
