@@ -44,16 +44,18 @@ sidebar:
 career-profile:
     title: Career Profile
     summary: |
-      I am currently an R&D Senior Software Engineer at Sandia National Laboratories;
+      Currently, I am a Research and Development Computer Scientist at Sandia National Laboratories,
+      where I develop technology to solve scientifically challenging problems, and I am also an Adjunct
+      Faculty at the University of New Mexico where I teach Computer Networks.
       I received a M.S. in Computer Science from Baghdad University in 2003 and a Ph.D. 
       from New Mexico State University in 2018. I worked at Baghdad University in Baghdad-Iraq, 
       eventually as an instructor from 2003 to 2009. My research interests are in 
       High-Performance Computing (HPC), specifically in dynamic analysis, application 
-      performance, and runtime monitoring. In the HPC arena, I developed several statistical 
-      modules to improve scientific application performance.
+      performance, and runtime monitoring. In the HPC arena, I used several statistical 
+      and machine learning modules to improve scientific application performance.
       My current research focuses on studying the increase of the overall utility of 
       expensive HPC resources in a scientific application and analyze the behavior
-      patterns of parallel applications, using statistical and numerical techniques.
+      patterns of parallel applications.
        
 
 education:
@@ -68,16 +70,16 @@ education:
       details: 
 
 experiences:
-    - role: Sr. Software Engineer
+    - role: R&D Computer Scientist
       time: 2018 - Present
       company: Sandia National Laboratories, Albuquerque
       details: |
-        - Supporting Sandia National Laboratories High-Performance Computing strategic roadmap
-        - Co-developing the LDMS monitoring framework, which has a potential reduction in computing resources usage
-        - Member of the ECP project, collaborating with 5 National Labs to improve the proxy applications algorithm performance
-        - Working with 12 researchers from Sandia national labs and four universities to design and implement a new HPC end-to-end monitoring methodologies
-        - Collaborating with researchers from Sandia Labs and NMSU to understand how well a proxy application predicts the comprehensive performance of its parent scientific application
-        - Evaluating current and future HPC system architectures performance
-        - System administration and optimizing applications in a Linux-based HPC environment
-        - Created several machine learning and statical modules using python and R
-        - Built and ran around 35 scientific applications from various scientific fields on different architecture HPC machines
+        - Explored several machine learning techniques to predict and diagnose performance anomalies in production HPC applications
+        - Developed methodologies use machine learning to predict the overall performance of running scientific applications instantly to improve Sandia supercomputing fertility
+        - Performed variance thresholding and cross-correlation on terabytes of time-series HPC system data for dimensionality reduction and identification of performance botelnecks 
+        - Developed analytics for network intrusion detection through Sandia-designed software in coordination with government agencies
+        - Lead a team of four undergraduate and graduate students at New Mexico State University to design a GPU analytic framework to detect performance deterioration in heterogeneous applications
+        - Applied data analytics to characterize communication patterns to find the behavior relationship between real and proxy applications and discover their correspondence or divergence
+        - Advanced monitoring and analysis capabilities for HPC systems by incorporating Lightweight Distributed Metric Service (LDMS), a supercomputer metric collection service, into Sandia testbeds
+        - Organized, led, and presented at a data analytics meeting between members of Sandia, Los Alamos, and Lawrence Livermore National Laboratories centered on HPC systems
+        - Collaborated with scientists from Oak Ridge National Laboratory as a member of the ECP project, to improve the quality of current scientfic applications and maximize the benefit received from their use
