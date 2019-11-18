@@ -69,7 +69,7 @@ education:
       time: 2000 - 2003
       details: 
 
-experience:
+experiences:
     - role: R&D Computer Scientist
       time: 2018 - Present
       company: Sandia National Laboratories, Albuquerque
