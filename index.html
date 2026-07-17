@@ -57,8 +57,36 @@
       box-shadow:var(--shadow);
       padding:14px 16px;
     }
+    .header-inner {
+      max-width:980px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .header-inner > div:first-child { min-width:0; }
     header h1 { margin:0; font-size:20px; line-height:1.2; }
     header p { margin:4px 0 0; color:var(--muted); font-size:13px; }
+    .profile-chip {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+      max-width:220px;
+      background:var(--panel-soft);
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:7px 10px;
+      color:var(--text);
+    }
+    .profile-chip svg { width:18px; height:18px; flex:0 0 auto; }
+    .profile-chip span {
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:13px;
+    }
     main { max-width:980px; margin:auto; padding:14px 14px 96px; }
     h2,h3 { margin:0 0 8px; line-height:1.2; }
     p { line-height:1.45; }
@@ -320,8 +348,19 @@
 </head>
 <body>
 <header>
-  <h1>My Workout Tracker</h1>
-  <p>Private weekly training log stored on this device</p>
+  <div class="header-inner">
+    <div>
+      <h1>My Workout Tracker</h1>
+      <p>Private weekly training log stored on this device</p>
+    </div>
+    <button class="profile-chip" id="profileShortcut" type="button" title="Edit profile" aria-label="Edit profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21a8 8 0 0 0-16 0"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span id="profileShortcutName">Profile</span>
+    </button>
+  </div>
 </header>
 
 <nav class="tabs" aria-label="Main navigation">
@@ -435,9 +474,9 @@
           <input id="profileAge" type="number" min="1" max="120" step="1" inputmode="numeric" placeholder="Age" />
         </label>
         <label class="field">Height
-          <span class="row" style="gap:6px; flex-wrap:nowrap">
-            <input id="profileHeight" type="number" min="1" step="0.1" inputmode="decimal" placeholder="Height" />
-            <select id="profileHeightUnit" aria-label="Height unit"><option>in</option><option>cm</option></select>
+          <span class="grid-2" style="gap:6px">
+            <input id="profileHeightFeet" type="number" min="1" max="8" step="1" inputmode="numeric" placeholder="ft" aria-label="Height feet" />
+            <input id="profileHeightInches" type="number" min="0" max="11" step="1" inputmode="numeric" placeholder="in" aria-label="Height inches" />
           </span>
         </label>
         <label class="field">Current weight
@@ -504,9 +543,9 @@
         <input id="setupAge" type="number" min="1" max="120" step="1" inputmode="numeric" placeholder="Age" required />
       </label>
       <label class="field">Height
-        <span class="row" style="gap:6px; flex-wrap:nowrap">
-          <input id="setupHeight" type="number" min="1" step="0.1" inputmode="decimal" placeholder="Height" required />
-          <select id="setupHeightUnit" aria-label="Height unit"><option>in</option><option>cm</option></select>
+        <span class="grid-2" style="gap:6px">
+          <input id="setupHeightFeet" type="number" min="1" max="8" step="1" inputmode="numeric" placeholder="ft" aria-label="Height feet" required />
+          <input id="setupHeightInches" type="number" min="0" max="11" step="1" inputmode="numeric" placeholder="in" aria-label="Height inches" required />
         </span>
       </label>
       <label class="field">Weight
@@ -755,6 +794,7 @@ function bindActions() {
   };
   $("saveWeight").onclick = saveBodyWeight;
   $("saveProfile").onclick = saveProfileFromPanel;
+  $("profileShortcut").onclick = openProfileEditor;
   $("profileSetupForm").onsubmit = saveProfileFromSetup;
   $("skipProfileSetup").onclick = () => {
     localStorage.setItem("wt_profile_setup_skipped_v1", "true");
@@ -1136,48 +1176,83 @@ function calcStreak(history) {
 
 function renderProfile() {
   const p = profile || {};
+  const height = normalizeHeight(p);
   $("profileName").value = p.name || "";
   $("profileAge").value = p.age || "";
-  $("profileHeight").value = p.height || "";
-  $("profileHeightUnit").value = p.heightUnit || "in";
+  $("profileHeightFeet").value = height.feet || "";
+  $("profileHeightInches").value = height.inches || "";
   $("profileWeight").value = p.weight || "";
   $("profileWeightUnit").value = p.unit || "lb";
   const summary = [];
   if (p.name) summary.push(p.name);
   if (p.age) summary.push(`${p.age} years old`);
-  if (p.height) summary.push(`${p.height} ${p.heightUnit || "in"}`);
+  if (height.totalInches) summary.push(formatHeight(height));
   if (p.weight) summary.push(`${p.weight} ${p.unit || "lb"}`);
   $("profileSummary").textContent = summary.length ? summary.join(" · ") : "Add your details to personalize tracking.";
   $("profileStatus").textContent = isProfileComplete(p) ? "Saved" : "Incomplete";
+  $("profileShortcutName").textContent = p.name || "Profile";
+  $("profileShortcut").setAttribute("aria-label", p.name ? `Edit ${p.name}'s profile` : "Edit profile");
 }
 
 function maybeShowProfileSetup() {
   if (isProfileComplete(profile) || localStorage.getItem("wt_profile_setup_skipped_v1")) return;
+  const height = normalizeHeight(profile || {});
   $("setupName").value = profile?.name || "";
   $("setupAge").value = profile?.age || "";
-  $("setupHeight").value = profile?.height || "";
-  $("setupHeightUnit").value = profile?.heightUnit || "in";
+  $("setupHeightFeet").value = height.feet || "";
+  $("setupHeightInches").value = height.inches || "";
   $("setupWeight").value = profile?.weight || "";
   $("setupWeightUnit").value = profile?.unit || "lb";
   $("profileModal").hidden = false;
 }
 
 function isProfileComplete(p) {
-  return !!(p && p.name && +p.age > 0 && +p.height > 0 && +p.weight > 0);
+  return !!(p && p.name && +p.age > 0 && normalizeHeight(p).totalInches > 0 && +p.weight > 0);
 }
 
 function readProfile(prefix) {
   const name = $(`${prefix}Name`).value.trim();
   const age = +$(`${prefix}Age`).value;
-  const height = +$(`${prefix}Height`).value;
-  const heightUnit = $(`${prefix}HeightUnit`).value;
+  const heightFeet = +$(`${prefix}HeightFeet`).value;
+  const heightInches = +$(`${prefix}HeightInches`).value;
   const weight = +$(`${prefix}Weight`).value;
   const unit = $(`${prefix}WeightUnit`).value;
   if (!name) return alert("Enter your name."), null;
   if (!age || age < 1 || age > 120) return alert("Enter a valid age."), null;
-  if (!height || height <= 0) return alert("Enter a valid height."), null;
+  if (!heightFeet || heightFeet < 1 || heightFeet > 8) return alert("Enter valid height feet."), null;
+  if (Number.isNaN(heightInches) || heightInches < 0 || heightInches > 11) return alert("Enter height inches from 0 to 11."), null;
   if (!weight || weight <= 0) return alert("Enter a valid weight."), null;
-  return { name, age, height, heightUnit, weight, unit, updatedAt:new Date().toISOString() };
+  return { name, age, heightFeet, heightInches, heightTotalInches:(heightFeet * 12) + heightInches, weight, unit, updatedAt:new Date().toISOString() };
+}
+
+function normalizeHeight(p) {
+  if (!p) return { feet:0, inches:0, totalInches:0 };
+  if (+p.heightTotalInches > 0) {
+    const total = Math.round(+p.heightTotalInches);
+    return { feet:Math.floor(total / 12), inches:total % 12, totalInches:total };
+  }
+  if (+p.heightFeet > 0) {
+    const feet = Math.round(+p.heightFeet);
+    const inches = Math.max(0, Math.min(11, Math.round(+p.heightInches || 0)));
+    return { feet, inches, totalInches:(feet * 12) + inches };
+  }
+  if (+p.height > 0) {
+    const total = p.heightUnit === "cm" ? Math.round(+p.height / 2.54) : Math.round(+p.height);
+    return { feet:Math.floor(total / 12), inches:total % 12, totalInches:total };
+  }
+  return { feet:0, inches:0, totalInches:0 };
+}
+
+function formatHeight(height) {
+  return `${height.feet}' ${height.inches}"`;
+}
+
+function openProfileEditor() {
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.page === "progress"));
+  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "progress"));
+  renderProgress();
+  renderProfile();
+  $("profileName").focus();
 }
 
 function saveProfile(nextProfile) {
