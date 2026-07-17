@@ -470,8 +470,8 @@
         <label class="field">Name
           <input id="profileName" type="text" autocomplete="name" placeholder="Your name" />
         </label>
-        <label class="field">Age
-          <input id="profileAge" type="number" min="1" max="120" step="1" inputmode="numeric" placeholder="Age" />
+        <label class="field">Date of birth
+          <input id="profileBirthDate" type="date" autocomplete="bday" />
         </label>
         <label class="field">Height
           <span class="grid-2" style="gap:6px">
@@ -539,8 +539,8 @@
       <input id="setupName" type="text" autocomplete="name" placeholder="Your name" required />
     </label>
     <div class="grid-2">
-      <label class="field">Age
-        <input id="setupAge" type="number" min="1" max="120" step="1" inputmode="numeric" placeholder="Age" required />
+      <label class="field">Date of birth
+        <input id="setupBirthDate" type="date" autocomplete="bday" required />
       </label>
       <label class="field">Height
         <span class="grid-2" style="gap:6px">
@@ -1177,15 +1177,16 @@ function calcStreak(history) {
 function renderProfile() {
   const p = profile || {};
   const height = normalizeHeight(p);
+  const age = ageFromProfile(p);
   $("profileName").value = p.name || "";
-  $("profileAge").value = p.age || "";
+  $("profileBirthDate").value = p.birthDate || "";
   $("profileHeightFeet").value = height.feet || "";
   $("profileHeightInches").value = height.inches || "";
   $("profileWeight").value = p.weight || "";
   $("profileWeightUnit").value = p.unit || "lb";
   const summary = [];
   if (p.name) summary.push(p.name);
-  if (p.age) summary.push(`${p.age} years old`);
+  if (age) summary.push(`${age} years old`);
   if (height.totalInches) summary.push(formatHeight(height));
   if (p.weight) summary.push(`${p.weight} ${p.unit || "lb"}`);
   $("profileSummary").textContent = summary.length ? summary.join(" · ") : "Add your details to personalize tracking.";
@@ -1198,7 +1199,7 @@ function maybeShowProfileSetup() {
   if (isProfileComplete(profile) || localStorage.getItem("wt_profile_setup_skipped_v1")) return;
   const height = normalizeHeight(profile || {});
   $("setupName").value = profile?.name || "";
-  $("setupAge").value = profile?.age || "";
+  $("setupBirthDate").value = profile?.birthDate || "";
   $("setupHeightFeet").value = height.feet || "";
   $("setupHeightInches").value = height.inches || "";
   $("setupWeight").value = profile?.weight || "";
@@ -1207,22 +1208,43 @@ function maybeShowProfileSetup() {
 }
 
 function isProfileComplete(p) {
-  return !!(p && p.name && +p.age > 0 && normalizeHeight(p).totalInches > 0 && +p.weight > 0);
+  return !!(p && p.name && validBirthDate(p.birthDate) && normalizeHeight(p).totalInches > 0 && +p.weight > 0);
 }
 
 function readProfile(prefix) {
   const name = $(`${prefix}Name`).value.trim();
-  const age = +$(`${prefix}Age`).value;
+  const birthDate = $(`${prefix}BirthDate`).value;
+  const age = calculateAge(birthDate);
   const heightFeet = +$(`${prefix}HeightFeet`).value;
   const heightInches = +$(`${prefix}HeightInches`).value;
   const weight = +$(`${prefix}Weight`).value;
   const unit = $(`${prefix}WeightUnit`).value;
   if (!name) return alert("Enter your name."), null;
-  if (!age || age < 1 || age > 120) return alert("Enter a valid age."), null;
+  if (!validBirthDate(birthDate)) return alert("Enter a valid date of birth."), null;
   if (!heightFeet || heightFeet < 1 || heightFeet > 8) return alert("Enter valid height feet."), null;
   if (Number.isNaN(heightInches) || heightInches < 0 || heightInches > 11) return alert("Enter height inches from 0 to 11."), null;
   if (!weight || weight <= 0) return alert("Enter a valid weight."), null;
-  return { name, age, heightFeet, heightInches, heightTotalInches:(heightFeet * 12) + heightInches, weight, unit, updatedAt:new Date().toISOString() };
+  return { name, birthDate, age, heightFeet, heightInches, heightTotalInches:(heightFeet * 12) + heightInches, weight, unit, updatedAt:new Date().toISOString() };
+}
+
+function ageFromProfile(p) {
+  return calculateAge(p?.birthDate) || (+p?.age > 0 ? +p.age : 0);
+}
+
+function validBirthDate(value) {
+  const age = calculateAge(value);
+  return age >= 1 && age <= 120;
+}
+
+function calculateAge(value) {
+  if (!value) return 0;
+  const birthDate = parseLocalDate(value);
+  if (Number.isNaN(birthDate.getTime())) return 0;
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const birthdayThisYear = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+  if (today < birthdayThisYear) age--;
+  return age;
 }
 
 function normalizeHeight(p) {
