@@ -488,6 +488,7 @@
       </div>
       <div class="row" style="margin-top:12px">
         <button class="primary" id="saveProfile">Save Profile</button>
+        <button class="danger" id="deleteProfile" type="button">Delete Profile</button>
       </div>
     </div>
     <div class="panel">
@@ -793,6 +794,7 @@ function bindActions() {
   };
   $("saveWeight").onclick = saveBodyWeight;
   $("saveProfile").onclick = saveProfileFromPanel;
+  $("deleteProfile").onclick = deleteProfile;
   $("profileShortcut").onclick = openProfileEditor;
   $("profileSetupForm").onsubmit = saveProfileFromSetup;
   $("exportBtn").onclick = exportData;
@@ -1284,6 +1286,14 @@ function saveProfileFromPanel() {
   if (!next) return;
   saveProfile(next);
   alert("Profile saved.");
+}
+
+function deleteProfile() {
+  if (!confirm("Delete your profile? Workout history and body-weight records will stay saved.")) return;
+  profile = null;
+  localStorage.removeItem(K.profile);
+  renderProfile();
+  maybeShowProfileSetup();
 }
 
 function saveProfileFromSetup(event) {
