@@ -221,6 +221,25 @@
       font-size:64px;
       margin:14px 0;
     }
+    .tour-step {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:34px;
+      height:34px;
+      border-radius:999px;
+      background:var(--primary);
+      color:white;
+      font-weight:850;
+      margin-bottom:8px;
+    }
+    .tour-actions {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      margin-top:14px;
+    }
     .exercise {
       border:1px solid var(--border);
       border-radius:8px;
@@ -512,6 +531,10 @@
           <span>Dark mode</span>
           <button class="secondary" id="themeBtn">Toggle</button>
         </div>
+        <div class="row between">
+          <span>App tour</span>
+          <button class="secondary" id="showTour" type="button">Show</button>
+        </div>
         <div class="row">
           <button class="primary" id="exportBtn">Export Backup</button>
           <label class="btn secondary">
@@ -563,6 +586,19 @@
     <p class="muted" id="timerLabel">Ready</p>
     <div class="timer" id="timerDisplay">01:00</div>
     <button class="primary" id="timerSkip" type="button">Skip Rest</button>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="tourModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+    <div class="tour-step" id="tourStepNumber">1</div>
+    <h2 id="tourTitle">Set Up Your Workouts</h2>
+    <p class="muted" id="tourText"></p>
+    <div class="tour-actions">
+      <button class="secondary" id="tourSkip" type="button">Skip</button>
+      <button class="secondary" id="tourBack" type="button">Back</button>
+      <button class="primary" id="tourNext" type="button">Next</button>
+    </div>
   </div>
 </div>
 
@@ -688,7 +724,8 @@ const K = {
   theme:"wt_theme_v1",
   schedule:"wt_schedule_v1",
   plan:"wt_plan_v1",
-  profile:"wt_profile_v1"
+  profile:"wt_profile_v1",
+  tour:"wt_tour_done_v1"
 };
 const $ = id => document.getElementById(id);
 const load = (key, fallback) => {
@@ -715,6 +752,24 @@ let timerSeconds = 60;
 let timerLeft = 60;
 let timerHandle = null;
 let timerAudio = null;
+let tourStep = 0;
+const TOUR_STEPS = [
+  {
+    page:"library",
+    title:"Choose Your Exercises",
+    text:"Start in the Library tab. Pick the exercises you want for each training group: Chest / Triceps, Back / Biceps, Shoulders / Core, and Legs / Abs."
+  },
+  {
+    page:"schedule",
+    title:"Set Your Weekly Schedule",
+    text:"Next, open Schedule. Choose which workout group belongs on each day. This same weekly pattern repeats automatically."
+  },
+  {
+    page:"workout",
+    title:"Start Today's Workout",
+    text:"Then come back to Workout. Pick today's date, check the planned group, and press Start Workout when you are ready to train."
+  }
+];
 
 function ex(name, sets, target, rest, demo, muscle) {
   return { name, sets, target, rest, demo, muscle };
@@ -750,6 +805,7 @@ function init() {
   renderProgress();
   renderProfile();
   maybeShowProfileSetup();
+  maybeShowTour();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 }
 
@@ -773,15 +829,17 @@ function fillSelectors() {
 
 function bindTabs() {
   document.querySelectorAll(".tabs button").forEach(btn => btn.addEventListener("click", () => {
-    document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    btn.classList.add("active");
-    $(btn.dataset.page).classList.add("active");
-    if (btn.dataset.page === "history") renderHistory();
-    if (btn.dataset.page === "progress") renderProgress();
-    if (btn.dataset.page === "schedule") renderScheduleEditor();
-    if (btn.dataset.page === "library") renderLibraryEditor();
+    openPage(btn.dataset.page);
   }));
+}
+
+function openPage(page) {
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.page === page));
+  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === page));
+  if (page === "history") renderHistory();
+  if (page === "progress") renderProgress();
+  if (page === "schedule") renderScheduleEditor();
+  if (page === "library") renderLibraryEditor();
 }
 
 function bindActions() {
@@ -802,6 +860,10 @@ function bindActions() {
   $("exportBtn").onclick = exportData;
   $("importFile").onchange = importData;
   $("themeBtn").onclick = toggleTheme;
+  $("showTour").onclick = () => startTour(false);
+  $("tourSkip").onclick = closeTour;
+  $("tourBack").onclick = previousTourStep;
+  $("tourNext").onclick = nextTourStep;
   $("saveSchedule").onclick = saveScheduleFromEditor;
   $("resetSchedule").onclick = () => {
     schedule = {...DEFAULT_SCHEDULE};
@@ -1093,6 +1155,48 @@ function skipTimer() {
   updateTimer();
 }
 
+function maybeShowTour() {
+  if (localStorage.getItem(K.tour) || !isProfileComplete(profile) || !$("profileModal").hidden) return;
+  startTour(true);
+}
+
+function startTour(markFirstRun = true) {
+  tourStep = 0;
+  $("tourModal").dataset.firstRun = markFirstRun ? "true" : "false";
+  $("tourModal").hidden = false;
+  renderTour();
+}
+
+function renderTour() {
+  const step = TOUR_STEPS[tourStep];
+  openPage(step.page);
+  $("tourStepNumber").textContent = tourStep + 1;
+  $("tourTitle").textContent = step.title;
+  $("tourText").textContent = step.text;
+  $("tourBack").hidden = tourStep === 0;
+  $("tourNext").textContent = tourStep === TOUR_STEPS.length - 1 ? "Done" : "Next";
+}
+
+function nextTourStep() {
+  if (tourStep < TOUR_STEPS.length - 1) {
+    tourStep++;
+    renderTour();
+    return;
+  }
+  closeTour();
+}
+
+function previousTourStep() {
+  if (tourStep <= 0) return;
+  tourStep--;
+  renderTour();
+}
+
+function closeTour() {
+  localStorage.setItem(K.tour, "true");
+  $("tourModal").hidden = true;
+}
+
 function updateTimer() {
   const m = String(Math.floor(timerLeft / 60)).padStart(2, "0");
   const s = String(timerLeft % 60).padStart(2, "0");
@@ -1269,9 +1373,7 @@ function formatHeight(height) {
 }
 
 function openProfileEditor() {
-  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.page === "progress"));
-  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "progress"));
-  renderProgress();
+  openPage("progress");
   renderProfile();
   $("profileName").focus();
 }
@@ -1309,6 +1411,7 @@ function saveProfileFromSetup(event) {
   if (!next) return;
   saveProfile(next);
   $("profileModal").hidden = true;
+  maybeShowTour();
 }
 
 function addWeightEntry(value, unit, source = "manual") {
