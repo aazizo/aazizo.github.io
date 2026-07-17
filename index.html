@@ -115,6 +115,7 @@
     .stack { display:grid; gap:10px; }
     .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
     .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .grid-4 { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
     .primary { background:var(--primary); color:white; }
     .primary:hover { background:var(--primary-strong); }
     .secondary { background:transparent; color:var(--text); border:1px solid var(--border); }
@@ -305,7 +306,7 @@
       .section { margin-left:0; margin-right:0; border:1px solid var(--border); border-radius:8px; }
     }
     @media (max-width:680px) {
-      .grid-2,.grid-3,.library-list { grid-template-columns:1fr; }
+      .grid-2,.grid-3,.grid-4,.library-list { grid-template-columns:1fr; }
       .exercise-head { grid-template-columns:118px 1fr; }
       .demo { height:148px; }
       .exercise-option { grid-template-columns:auto 64px minmax(0,1fr); }
@@ -426,12 +427,18 @@
         </div>
         <span class="pill" id="profileStatus">Local</span>
       </div>
-      <div class="grid-3" style="margin-top:12px">
+      <div class="grid-4" style="margin-top:12px">
         <label class="field">Name
           <input id="profileName" type="text" autocomplete="name" placeholder="Your name" />
         </label>
         <label class="field">Age
           <input id="profileAge" type="number" min="1" max="120" step="1" inputmode="numeric" placeholder="Age" />
+        </label>
+        <label class="field">Height
+          <span class="row" style="gap:6px; flex-wrap:nowrap">
+            <input id="profileHeight" type="number" min="1" step="0.1" inputmode="decimal" placeholder="Height" />
+            <select id="profileHeightUnit" aria-label="Height unit"><option>in</option><option>cm</option></select>
+          </span>
         </label>
         <label class="field">Current weight
           <span class="row" style="gap:6px; flex-wrap:nowrap">
@@ -495,6 +502,12 @@
     <div class="grid-2">
       <label class="field">Age
         <input id="setupAge" type="number" min="1" max="120" step="1" inputmode="numeric" placeholder="Age" required />
+      </label>
+      <label class="field">Height
+        <span class="row" style="gap:6px; flex-wrap:nowrap">
+          <input id="setupHeight" type="number" min="1" step="0.1" inputmode="decimal" placeholder="Height" required />
+          <select id="setupHeightUnit" aria-label="Height unit"><option>in</option><option>cm</option></select>
+        </span>
       </label>
       <label class="field">Weight
         <span class="row" style="gap:6px; flex-wrap:nowrap">
@@ -1125,11 +1138,14 @@ function renderProfile() {
   const p = profile || {};
   $("profileName").value = p.name || "";
   $("profileAge").value = p.age || "";
+  $("profileHeight").value = p.height || "";
+  $("profileHeightUnit").value = p.heightUnit || "in";
   $("profileWeight").value = p.weight || "";
   $("profileWeightUnit").value = p.unit || "lb";
   const summary = [];
   if (p.name) summary.push(p.name);
   if (p.age) summary.push(`${p.age} years old`);
+  if (p.height) summary.push(`${p.height} ${p.heightUnit || "in"}`);
   if (p.weight) summary.push(`${p.weight} ${p.unit || "lb"}`);
   $("profileSummary").textContent = summary.length ? summary.join(" · ") : "Add your details to personalize tracking.";
   $("profileStatus").textContent = isProfileComplete(p) ? "Saved" : "Incomplete";
@@ -1139,24 +1155,29 @@ function maybeShowProfileSetup() {
   if (isProfileComplete(profile) || localStorage.getItem("wt_profile_setup_skipped_v1")) return;
   $("setupName").value = profile?.name || "";
   $("setupAge").value = profile?.age || "";
+  $("setupHeight").value = profile?.height || "";
+  $("setupHeightUnit").value = profile?.heightUnit || "in";
   $("setupWeight").value = profile?.weight || "";
   $("setupWeightUnit").value = profile?.unit || "lb";
   $("profileModal").hidden = false;
 }
 
 function isProfileComplete(p) {
-  return !!(p && p.name && +p.age > 0 && +p.weight > 0);
+  return !!(p && p.name && +p.age > 0 && +p.height > 0 && +p.weight > 0);
 }
 
 function readProfile(prefix) {
   const name = $(`${prefix}Name`).value.trim();
   const age = +$(`${prefix}Age`).value;
+  const height = +$(`${prefix}Height`).value;
+  const heightUnit = $(`${prefix}HeightUnit`).value;
   const weight = +$(`${prefix}Weight`).value;
   const unit = $(`${prefix}WeightUnit`).value;
   if (!name) return alert("Enter your name."), null;
   if (!age || age < 1 || age > 120) return alert("Enter a valid age."), null;
+  if (!height || height <= 0) return alert("Enter a valid height."), null;
   if (!weight || weight <= 0) return alert("Enter a valid weight."), null;
-  return { name, age, weight, unit, updatedAt:new Date().toISOString() };
+  return { name, age, height, heightUnit, weight, unit, updatedAt:new Date().toISOString() };
 }
 
 function saveProfile(nextProfile) {

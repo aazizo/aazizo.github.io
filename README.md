@@ -5,7 +5,7 @@ A private static workout tracker for GitHub Pages.
 ## Features
 
 - Repeating weekly workout schedule
-- Editable local profile with name, age, and current weight
+- Editable local profile with name, age, height, and current weight
 - 20 curated exercise choices for each group: Chest / Triceps, Back / Biceps, Shoulders / Core, and Legs / Abs
 - Per-exercise cartoon demo images in `images/`
 - Auto-starting rest timer
