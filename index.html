@@ -200,6 +200,17 @@
       font-size:12px;
       font-weight:700;
     }
+    .burn-icon {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:18px;
+      height:18px;
+      color:#f97316;
+      flex:0 0 auto;
+      vertical-align:-4px;
+    }
+    .burn-icon svg { width:100%; height:100%; display:block; }
     .notice {
       border-left:4px solid var(--primary);
       background:color-mix(in srgb, var(--primary) 8%, var(--panel));
@@ -508,6 +519,7 @@
         <div class="stat"><span class="muted">Workouts</span><strong id="statWorkouts">0</strong></div>
         <div class="stat"><span class="muted">Sets completed</span><strong id="statSets">0</strong></div>
         <div class="stat"><span class="muted">Total volume</span><strong id="statVolume">0</strong><small class="muted"> lb x reps</small></div>
+        <div class="stat"><span class="muted">Calories burned</span><strong id="statCalories">0</strong><small class="muted"> estimated</small></div>
         <div class="stat"><span class="muted">Current streak</span><strong id="statStreak">0</strong><small class="muted"> days</small></div>
       </div>
     </div>
@@ -1122,6 +1134,16 @@ function finishWorkout() {
   const completedSets = activeSession.exercises.flatMap(e => e.sets).filter(s => s.done).length;
   if (!completedSets && !confirm("No sets are marked complete. Save anyway?")) return;
   activeSession.finishedAt = new Date().toISOString();
+  activeSession.profileWeight = profile?.weight || null;
+  activeSession.profileUnit = profile?.unit || "lb";
+  activeSession.calories = estimateWorkoutCalories(activeSession);
+  activeSession.calorieEstimate = {
+    method:"moderate strength training MET",
+    met:3.5,
+    weightUnit:profile?.unit || "lb",
+    weight:profile?.weight || null,
+    minutes:getWorkoutMinutes(activeSession)
+  };
   const history = load(K.history, []);
   history.unshift(activeSession);
   save(K.history, history);
@@ -1299,12 +1321,47 @@ function sendRestNotification() {
   new Notification("Rest time is complete", { body:"Start your next set." });
 }
 
+function burnIcon() {
+  return `<span class="burn-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.5 14.5A3.5 3.5 0 0 0 12 18a3.5 3.5 0 0 0 3.5-3.5c0-1.5-.7-2.4-1.6-3.5-.8-1-1.7-2.1-1.9-4-2 1.4-3.5 3.6-3.5 7.5z"/>
+      <path d="M16.5 7.5c2.1 1.7 3.5 4.2 3.5 7A8 8 0 0 1 4 14.5c0-3.8 2.3-7.3 6.4-10.5-.1 2.2.6 3.8 1.7 5.2"/>
+    </svg>
+  </span>`;
+}
+
+function estimateWorkoutCalories(workout) {
+  const minutes = getWorkoutMinutes(workout);
+  const weightKg = profileWeightKg(workout?.profileWeight ?? profile?.weight, workout?.profileUnit ?? profile?.unit);
+  if (!minutes || !weightKg) return 0;
+  const met = 3.5;
+  return Math.round((met * 3.5 * weightKg / 200) * minutes);
+}
+
+function workoutCalories(workout) {
+  return Math.round(+workout?.calories || estimateWorkoutCalories(workout));
+}
+
+function getWorkoutMinutes(workout) {
+  const start = new Date(workout?.startedAt || 0).getTime();
+  const end = new Date(workout?.finishedAt || Date.now()).getTime();
+  if (!start || !end || end <= start) return 0;
+  return Math.max(1, Math.round((end - start) / 60000));
+}
+
+function profileWeightKg(weight = profile?.weight, unit = profile?.unit) {
+  const value = +weight;
+  if (!value) return 0;
+  return unit === "kg" ? value : value / 2.20462;
+}
+
 function renderHistory() {
   const history = load(K.history, []);
   $("historyList").innerHTML = history.length ? history.map(w => {
     const date = w.workoutDate || isoDate(w.finishedAt || w.startedAt);
     const done = w.exercises.flatMap(e => e.sets.map(s => ({...s, exercise:e.name}))).filter(s => s.done);
     const volume = done.reduce((a,s) => a + (+s.weight || 0) * (+s.reps || 0), 0);
+    const calories = workoutCalories(w);
     return `<div class="history-item">
       <div class="row between">
         <div>
@@ -1313,7 +1370,10 @@ function renderHistory() {
         </div>
         <span class="pill">${done.length} sets</span>
       </div>
-      <span class="pill">${Math.round(volume).toLocaleString()} volume</span>
+      <div class="row" style="margin-top:8px">
+        <span class="pill">${Math.round(volume).toLocaleString()} volume</span>
+        <span class="pill">${burnIcon()} ${calories.toLocaleString()} cal</span>
+      </div>
       <details style="margin-top:8px">
         <summary>View details</summary>
         ${w.exercises.map(e => `<p><strong>${esc(e.name)}</strong><br>${
@@ -1329,9 +1389,11 @@ function renderProgress() {
   const history = load(K.history, []);
   const allSets = history.flatMap(w => w.exercises.flatMap(e => e.sets.filter(s => s.done)));
   const volume = allSets.reduce((a,s) => a + (+s.weight || 0) * (+s.reps || 0), 0);
+  const calories = history.reduce((sum,w) => sum + workoutCalories(w), 0);
   $("statWorkouts").textContent = history.length;
   $("statSets").textContent = allSets.length;
   $("statVolume").textContent = Math.round(volume).toLocaleString();
+  $("statCalories").innerHTML = `${burnIcon()} ${Math.round(calories).toLocaleString()}`;
   $("statStreak").textContent = calcStreak(history);
   renderWeights();
   renderPBs(history);

@@ -12,6 +12,7 @@ A private static workout tracker for GitHub Pages.
 - Per-exercise cartoon demo images in `images/`
 - Auto-starting rest timer with a profile rest-time setting and notification reminder
 - Daily workout history
+- Estimated calories burned for completed workouts
 - Last-used weight suggestions
 - Body-weight tracking, personal bests, and JSON backup import/export
 
