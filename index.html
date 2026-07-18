@@ -728,6 +728,7 @@ const DEFAULT_SCHEDULE = {
   6:""
 };
 const WORKOUT_SET_COUNT = 4;
+const STRENGTH_TRAINING_MET = 3.5;
 const K = {
   active:"wt_active_session_v2",
   history:"wt_history_v2",
@@ -1139,7 +1140,7 @@ function finishWorkout() {
   activeSession.calories = estimateWorkoutCalories(activeSession);
   activeSession.calorieEstimate = {
     method:"moderate strength training MET",
-    met:3.5,
+    met:STRENGTH_TRAINING_MET,
     weightUnit:profile?.unit || "lb",
     weight:profile?.weight || null,
     minutes:getWorkoutMinutes(activeSession)
@@ -1332,14 +1333,18 @@ function burnIcon() {
 
 function estimateWorkoutCalories(workout) {
   const minutes = getWorkoutMinutes(workout);
-  const weightKg = profileWeightKg(workout?.profileWeight ?? profile?.weight, workout?.profileUnit ?? profile?.unit);
+  const weightKg = workoutWeightKg(workout);
   if (!minutes || !weightKg) return 0;
-  const met = 3.5;
+  return calculateCalories(STRENGTH_TRAINING_MET, weightKg, minutes);
+}
+
+function calculateCalories(met, weightKg, minutes) {
   return Math.round((met * 3.5 * weightKg / 200) * minutes);
 }
 
 function workoutCalories(workout) {
-  return Math.round(+workout?.calories || estimateWorkoutCalories(workout));
+  const estimate = estimateWorkoutCalories(workout);
+  return estimate || Math.round(+workout?.calories || 0);
 }
 
 function getWorkoutMinutes(workout) {
@@ -1349,10 +1354,22 @@ function getWorkoutMinutes(workout) {
   return Math.max(1, Math.round((end - start) / 60000));
 }
 
+function workoutWeightKg(workout) {
+  return profileWeightKg(workout?.profileWeight ?? profile?.weight, workout?.profileUnit ?? profile?.unit);
+}
+
 function profileWeightKg(weight = profile?.weight, unit = profile?.unit) {
   const value = +weight;
   if (!value) return 0;
   return unit === "kg" ? value : value / 2.20462;
+}
+
+function calorieDetail(workout) {
+  const minutes = getWorkoutMinutes(workout);
+  const weight = workout?.profileWeight ?? profile?.weight;
+  const unit = workout?.profileUnit ?? profile?.unit ?? "lb";
+  if (!minutes || !+weight) return "Estimate needs profile weight and workout duration.";
+  return `${minutes} min · ${weight} ${unit} · ${STRENGTH_TRAINING_MET} MET`;
 }
 
 function renderHistory() {
@@ -1372,7 +1389,8 @@ function renderHistory() {
       </div>
       <div class="row" style="margin-top:8px">
         <span class="pill">${Math.round(volume).toLocaleString()} volume</span>
-        <span class="pill">${burnIcon()} ${calories.toLocaleString()} cal</span>
+        <span class="pill" title="${esc(calorieDetail(w))}">${burnIcon()} ${calories.toLocaleString()} cal</span>
+        <span class="muted small">${esc(calorieDetail(w))}</span>
       </div>
       <details style="margin-top:8px">
         <summary>View details</summary>
