@@ -715,6 +715,7 @@ const DEFAULT_SCHEDULE = {
   5:"legs-abs",
   6:""
 };
+const WORKOUT_SET_COUNT = 4;
 const K = {
   active:"wt_active_session_v2",
   history:"wt_history_v2",
@@ -725,7 +726,8 @@ const K = {
   schedule:"wt_schedule_v1",
   plan:"wt_plan_v1",
   profile:"wt_profile_v1",
-  tour:"wt_tour_done_v1"
+  tour:"wt_tour_done_v1",
+  restTimer:"wt_rest_timer_v1"
 };
 const $ = id => document.getElementById(id);
 const load = (key, fallback) => {
@@ -750,6 +752,7 @@ let selectedPlan = load(K.plan, DEFAULT_PLAN);
 let profile = load(K.profile, null);
 let timerSeconds = 60;
 let timerLeft = 60;
+let timerEndsAt = 0;
 let timerHandle = null;
 let timerAudio = null;
 let tourStep = 0;
@@ -793,6 +796,9 @@ function init() {
     $("groupSelect").value = $("scheduledGroupSelect").value;
     showDayNote();
   });
+  document.addEventListener("visibilitychange", syncTimerFromClock);
+  window.addEventListener("focus", syncTimerFromClock);
+  window.addEventListener("pageshow", syncTimerFromClock);
   bindTabs();
   bindActions();
   applyTheme();
@@ -806,6 +812,7 @@ function init() {
   renderProfile();
   maybeShowProfileSetup();
   maybeShowTour();
+  restoreRestTimer();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 }
 
@@ -971,7 +978,7 @@ function renderLibraryEditor() {
             <span class="library-thumb">
               <img src="${esc(exerciseImagePath(item.name))}" alt="${esc(item.name)} demo" loading="lazy">
             </span>
-            <span><strong>${esc(item.name)}</strong><br><span class="muted small">${esc(item.muscle)} · ${item.sets} sets · ${esc(item.target)} reps</span></span>
+            <span><strong>${esc(item.name)}</strong><br><span class="muted small">${esc(item.muscle)} · ${WORKOUT_SET_COUNT} sets · ${esc(item.target)} reps</span></span>
           </label>`;
         }).join("")}
       </div>
@@ -1011,7 +1018,7 @@ function startSession(groupId, workoutDate) {
       demo:item.demo,
       image:exerciseImagePath(item.name),
       last,
-      sets:Array.from({length:item.sets}, () => ({weight:last?.weight ? String(last.weight) : "", reps:"", done:false}))
+      sets:Array.from({length:WORKOUT_SET_COUNT}, () => ({weight:last?.weight ? String(last.weight) : "", reps:"", done:false}))
     };
   });
   activeSession = {
@@ -1034,6 +1041,7 @@ function renderSession() {
     box.innerHTML = '<div class="panel"><p class="muted empty-root">No active workout for the selected day.</p></div>';
     return;
   }
+  ensureSessionSetCount();
   box.innerHTML = `
     <div class="panel">
       <div class="row between">
@@ -1067,6 +1075,18 @@ function renderSession() {
     save(K.active, activeSession);
   };
   $("finishWorkout").onclick = finishWorkout;
+}
+
+function ensureSessionSetCount() {
+  let changed = false;
+  activeSession.exercises.forEach(exercise => {
+    while (exercise.sets.length < WORKOUT_SET_COUNT) {
+      const last = exercise.last;
+      exercise.sets.push({ weight:last?.weight ? String(last.weight) : "", reps:"", done:false });
+      changed = true;
+    }
+  });
+  if (changed) save(K.active, activeSession);
 }
 
 function renderExercise(exercise, ei) {
@@ -1118,6 +1138,7 @@ function setTimer(seconds, autoStart = false, label = "Ready") {
   timerHandle = null;
   timerSeconds = seconds;
   timerLeft = seconds;
+  timerEndsAt = 0;
   $("timerLabel").textContent = label;
   $("timerSkip").textContent = "Skip Rest";
   $("timerDisplay").classList.remove("done");
@@ -1127,17 +1148,23 @@ function setTimer(seconds, autoStart = false, label = "Ready") {
 
 function startTimer() {
   if (timerHandle) return;
+  requestNotificationPermission();
   $("restTimerModal").hidden = false;
+  timerEndsAt = Date.now() + (timerLeft * 1000);
+  saveRestTimer();
   timerHandle = setInterval(() => {
-    timerLeft = Math.max(0, timerLeft - 1);
-    updateTimer();
-    if (timerLeft <= 0) finishTimer();
+    syncTimerFromClock();
   }, 1000);
+  syncTimerFromClock();
 }
 
 function finishTimer() {
   clearInterval(timerHandle);
   timerHandle = null;
+  timerLeft = 0;
+  timerEndsAt = 0;
+  updateTimer();
+  localStorage.removeItem(K.restTimer);
   $("timerLabel").textContent = "Rest complete";
   $("timerSkip").textContent = "Close";
   $("timerDisplay").classList.add("done");
@@ -1147,12 +1174,53 @@ function finishTimer() {
 function skipTimer() {
   clearInterval(timerHandle);
   timerHandle = null;
+  timerEndsAt = 0;
+  localStorage.removeItem(K.restTimer);
   $("restTimerModal").hidden = true;
   $("timerLabel").textContent = "Ready";
   $("timerSkip").textContent = "Skip Rest";
   $("timerDisplay").classList.remove("done");
   timerLeft = timerSeconds;
   updateTimer();
+}
+
+function syncTimerFromClock() {
+  if (!timerEndsAt) return;
+  timerLeft = Math.max(0, Math.ceil((timerEndsAt - Date.now()) / 1000));
+  updateTimer();
+  if (timerLeft <= 0) finishTimer();
+}
+
+function requestNotificationPermission() {
+  if (!("Notification" in window) || Notification.permission !== "default") return;
+  const request = Notification.requestPermission();
+  if (request?.catch) request.catch(() => {});
+}
+
+function saveRestTimer() {
+  save(K.restTimer, {
+    endsAt:timerEndsAt,
+    seconds:timerSeconds,
+    label:$("timerLabel").textContent || "Rest"
+  });
+}
+
+function restoreRestTimer() {
+  const savedTimer = load(K.restTimer, null);
+  if (!savedTimer?.endsAt) return;
+  timerSeconds = Math.max(15, Math.round(+savedTimer.seconds || getProfileRestSeconds()));
+  timerEndsAt = +savedTimer.endsAt;
+  timerLeft = Math.max(0, Math.ceil((timerEndsAt - Date.now()) / 1000));
+  $("timerLabel").textContent = savedTimer.label || "Rest";
+  $("timerSkip").textContent = "Skip Rest";
+  $("timerDisplay").classList.remove("done");
+  $("restTimerModal").hidden = false;
+  updateTimer();
+  if (timerLeft <= 0) {
+    finishTimer();
+    return;
+  }
+  timerHandle = setInterval(syncTimerFromClock, 1000);
 }
 
 function maybeShowTour() {
@@ -1217,9 +1285,18 @@ function remindRestDone() {
     osc.start();
     osc.stop(timerAudio.currentTime + .55);
   } catch {}
-  if ("Notification" in window && Notification.permission === "granted") {
-    new Notification("Rest time is complete", { body:"Start your next set." });
+  sendRestNotification();
+}
+
+function sendRestNotification() {
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  if (navigator.serviceWorker?.ready) {
+    navigator.serviceWorker.ready
+      .then(reg => reg.showNotification("Rest time is complete", { body:"Start your next set." }))
+      .catch(() => new Notification("Rest time is complete", { body:"Start your next set." }));
+    return;
   }
+  new Notification("Rest time is complete", { body:"Start your next set." });
 }
 
 function renderHistory() {
