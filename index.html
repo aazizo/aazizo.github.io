@@ -305,7 +305,7 @@
     }
     .exercise-option {
       display:grid;
-      grid-template-columns:auto 72px minmax(0,1fr);
+      grid-template-columns:auto 72px minmax(0,1fr) auto;
       gap:9px;
       align-items:center;
       padding:9px;
@@ -317,6 +317,22 @@
     .exercise-option.selected {
       border-color:var(--primary);
       background:color-mix(in srgb, var(--primary) 7%, var(--panel));
+    }
+    .order-controls {
+      display:grid;
+      gap:4px;
+    }
+    .order-controls button {
+      width:34px;
+      min-width:34px;
+      height:34px;
+      min-height:34px;
+      padding:0;
+      line-height:1;
+    }
+    .order-controls button[disabled] {
+      opacity:.35;
+      cursor:not-allowed;
     }
     .library-thumb {
       height:72px;
@@ -374,7 +390,7 @@
       .grid-2,.grid-3,.grid-4,.library-list { grid-template-columns:1fr; }
       .exercise-head { grid-template-columns:118px 1fr; }
       .demo { height:148px; }
-      .exercise-option { grid-template-columns:auto 64px minmax(0,1fr); }
+      .exercise-option { grid-template-columns:auto 64px minmax(0,1fr) auto; }
       .library-thumb { height:64px; }
       .day-strip { gap:4px; }
       .day-chip { font-size:11px; min-height:50px; padding:6px 2px; }
@@ -969,8 +985,7 @@ function saveScheduleFromEditor() {
 }
 
 function selectedCount(groupId) {
-  const validNames = new Set(EXERCISES[groupId].map(item => item.name));
-  return (selectedPlan[groupId] || []).filter(name => validNames.has(name)).length;
+  return selectedExerciseNames(groupId).length;
 }
 
 function renderLibraryEditor() {
@@ -984,27 +999,74 @@ function renderLibraryEditor() {
         <span class="pill">${selectedCount(g.id)} selected</span>
       </div>
       <div class="library-list" style="margin-top:10px">
-        ${EXERCISES[g.id].map(item => {
-          const checked = (selectedPlan[g.id] || []).includes(item.name);
+        ${orderedLibraryItems(g.id).map(item => {
+          const selectedNames = selectedExerciseNames(g.id);
+          const checked = selectedNames.includes(item.name);
+          const selectedIndex = selectedNames.indexOf(item.name);
           return `<label class="exercise-option ${checked ? "selected" : ""}">
             <input type="checkbox" data-plan-group="${g.id}" value="${esc(item.name)}" ${checked ? "checked" : ""}>
             <span class="library-thumb">
               <img src="${esc(exerciseImagePath(item.name))}" alt="${esc(item.name)} demo" loading="lazy">
             </span>
             <span><strong>${esc(item.name)}</strong><br><span class="muted small">${esc(item.muscle)} · ${WORKOUT_SET_COUNT} sets · ${esc(item.target)} reps</span></span>
+            <span class="order-controls" ${checked ? "" : "hidden"}>
+              <button class="secondary" type="button" data-order-group="${g.id}" data-order-name="${esc(item.name)}" data-direction="-1" aria-label="Move ${esc(item.name)} up" title="Move up" ${selectedIndex <= 0 ? "disabled" : ""}>↑</button>
+              <button class="secondary" type="button" data-order-group="${g.id}" data-order-name="${esc(item.name)}" data-direction="1" aria-label="Move ${esc(item.name)} down" title="Move down" ${selectedIndex === selectedNames.length - 1 ? "disabled" : ""}>↓</button>
+            </span>
           </label>`;
         }).join("")}
       </div>
     </div>`).join("");
   $("libraryEditor").querySelectorAll("[data-plan-group]").forEach(input => {
-    input.addEventListener("change", () => input.closest(".exercise-option").classList.toggle("selected", input.checked));
+    input.addEventListener("change", () => toggleLibraryExercise(input));
   });
+  $("libraryEditor").querySelectorAll("[data-order-group]").forEach(btn => {
+    btn.addEventListener("click", moveLibraryExercise);
+  });
+}
+
+function selectedExerciseNames(groupId) {
+  const validNames = new Set(EXERCISES[groupId].map(item => item.name));
+  const selected = (selectedPlan[groupId] || []).filter(name => validNames.has(name));
+  return selected.length ? selected : DEFAULT_PLAN[groupId].filter(name => validNames.has(name));
+}
+
+function orderedLibraryItems(groupId) {
+  const selected = selectedExerciseNames(groupId);
+  const byName = new Map(EXERCISES[groupId].map(item => [item.name, item]));
+  const selectedItems = selected.map(name => byName.get(name)).filter(Boolean);
+  const remaining = EXERCISES[groupId].filter(item => !selected.includes(item.name));
+  return [...selectedItems, ...remaining];
+}
+
+function toggleLibraryExercise(input) {
+  const groupId = input.dataset.planGroup;
+  const current = selectedExerciseNames(groupId);
+  if (input.checked && !current.includes(input.value)) current.push(input.value);
+  if (!input.checked && current.includes(input.value)) current.splice(current.indexOf(input.value), 1);
+  selectedPlan[groupId] = current.length ? current : DEFAULT_PLAN[groupId].slice(0,1);
+  renderLibraryEditor();
+}
+
+function moveLibraryExercise(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const groupId = event.currentTarget.dataset.orderGroup;
+  const name = event.currentTarget.dataset.orderName;
+  const direction = +event.currentTarget.dataset.direction;
+  const current = selectedExerciseNames(groupId);
+  const index = current.indexOf(name);
+  const nextIndex = index + direction;
+  if (index < 0 || nextIndex < 0 || nextIndex >= current.length) return;
+  [current[index], current[nextIndex]] = [current[nextIndex], current[index]];
+  selectedPlan[groupId] = current;
+  renderLibraryEditor();
 }
 
 function savePlanFromEditor() {
   const next = {};
   GROUPS.forEach(g => {
-    next[g.id] = Array.from(document.querySelectorAll(`[data-plan-group="${g.id}"]:checked`)).map(x => x.value);
+    next[g.id] = selectedExerciseNames(g.id);
     if (!next[g.id].length) next[g.id] = DEFAULT_PLAN[g.id].slice(0,1);
   });
   selectedPlan = next;
