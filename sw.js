@@ -1,4 +1,4 @@
-const CACHE = "workout-tracker-v14";
+const CACHE = "workout-tracker-v12";
 const ASSETS = [
   "./",
   "./index.html",
@@ -13,8 +13,7 @@ const ASSETS = [
   "./images/demo-raise.png",
   "./images/demo-plank.png",
   "./images/demo-core.png",
-  "./images/demo-legs.png",
-  "./images/workouts/manifest.json"
+  "./images/demo-legs.png"
 ];
 
 self.addEventListener("install", event => {
