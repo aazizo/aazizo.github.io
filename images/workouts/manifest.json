@@ -1029,9 +1029,9 @@
   },
   "Dumbbell Romanian Deadlift": {
     "slug": "dumbbell-romanian-deadlift",
-    "resolvedName": "Romanian Deadlift",
-    "extId": "Romanian_Deadlift",
-    "query": "Romanian_Deadlift",
+    "resolvedName": "Stiff-Legged Dumbbell Deadlift",
+    "extId": "Stiff-Legged_Dumbbell_Deadlift",
+    "query": "Stiff-Legged_Dumbbell_Deadlift",
     "match": "exact",
     "still": "images/workouts/dumbbell-romanian-deadlift.jpg",
     "clip": "images/workouts/dumbbell-romanian-deadlift.gif",
@@ -1040,7 +1040,6 @@
       "hamstrings"
     ],
     "secondaryMuscles": [
-      "calves",
       "glutes",
       "lower back"
     ]
