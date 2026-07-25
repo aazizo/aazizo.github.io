@@ -880,9 +880,13 @@ function openPage(page) {
 }
 
 function bindActions() {
-  $("startBtn").onclick = () => startSession($("groupSelect").value, $("workoutDate").value);
+  $("startBtn").onclick = () => {
+    startSession($("groupSelect").value, $("workoutDate").value);
+    syncWorkoutControls();
+  };
   $("resumeBtn").onclick = () => {
     activeSession = load(K.active, null);
+    syncWorkoutControls();
     renderSession();
   };
   $("timerSkip").onclick = skipTimer;
@@ -1170,7 +1174,13 @@ function renderSession() {
 }
 
 function syncWorkoutControls() {
-  $("workoutButtons").hidden = !!activeSession;
+  const hide = !!activeSession;
+  ["workoutButtons", "startBtn", "resumeBtn"].forEach(id => {
+    const el = $(id);
+    el.hidden = hide;
+    if (hide) el.style.display = "none";
+    else el.style.removeProperty("display");
+  });
 }
 
 function hasSetValue(value) {
