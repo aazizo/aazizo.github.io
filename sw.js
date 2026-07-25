@@ -1,4 +1,4 @@
-const CACHE = "workout-tracker-v13";
+const CACHE = "workout-tracker-v14";
 const ASSETS = [
   "./",
   "./index.html",
@@ -14,26 +14,7 @@ const ASSETS = [
   "./images/demo-plank.png",
   "./images/demo-core.png",
   "./images/demo-legs.png",
-  "./images/anatomy-press.png",
-  "./images/anatomy-press.gif",
-  "./images/anatomy-fly.png",
-  "./images/anatomy-fly.gif",
-  "./images/anatomy-pushdown.png",
-  "./images/anatomy-pushdown.gif",
-  "./images/anatomy-pulldown.png",
-  "./images/anatomy-pulldown.gif",
-  "./images/anatomy-row.png",
-  "./images/anatomy-row.gif",
-  "./images/anatomy-curl.png",
-  "./images/anatomy-curl.gif",
-  "./images/anatomy-raise.png",
-  "./images/anatomy-raise.gif",
-  "./images/anatomy-plank.png",
-  "./images/anatomy-plank.gif",
-  "./images/anatomy-core.png",
-  "./images/anatomy-core.gif",
-  "./images/anatomy-legs.png",
-  "./images/anatomy-legs.gif"
+  "./images/workouts/manifest.json"
 ];
 
 self.addEventListener("install", event => {

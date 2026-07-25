@@ -384,7 +384,15 @@
     .demo-modal {
       width:min(760px,100%);
     }
-    .demo-clip {
+    .demo-media-grid {
+      display:grid;
+      grid-template-columns:minmax(0,1.5fr) minmax(160px,.75fr);
+      gap:10px;
+      margin-top:12px;
+      align-items:stretch;
+    }
+    .demo-clip,
+    .demo-muscles {
       width:100%;
       aspect-ratio:4 / 3;
       display:block;
@@ -392,8 +400,8 @@
       background:#fff;
       border:1px solid var(--border);
       border-radius:8px;
-      margin-top:12px;
     }
+    .demo-muscles { padding:8px; }
     @media (min-width:760px) {
       .tabs {
         position:sticky;
@@ -413,6 +421,7 @@
       .demo { height:148px; }
       .exercise-option { grid-template-columns:auto 64px minmax(0,1fr) auto; }
       .library-thumb { height:64px; }
+      .demo-media-grid { grid-template-columns:1fr; }
       .day-strip { gap:4px; }
       .day-chip { font-size:11px; min-height:50px; padding:6px 2px; }
       .set-row { grid-template-columns:42px minmax(0,1fr) minmax(0,1fr) 44px; gap:6px; }
@@ -660,7 +669,10 @@
       </div>
       <button class="secondary" id="exerciseDemoClose" type="button">Close</button>
     </div>
-    <img class="demo-clip" id="exerciseDemoClip" alt="" />
+    <div class="demo-media-grid">
+      <img class="demo-clip" id="exerciseDemoClip" alt="" />
+      <img class="demo-muscles" id="exerciseDemoMuscleMap" alt="" />
+    </div>
   </div>
 </div>
 
@@ -849,12 +861,16 @@ function exerciseImagePath(name) {
   return `images/ex-${slugExercise(name)}.png`;
 }
 
-function anatomyStillPath(demo) {
-  return `images/anatomy-${demo || "press"}.png`;
+function workoutStillPath(name) {
+  return `images/workouts/${slugExercise(name)}.jpg`;
 }
 
-function anatomyClipPath(demo) {
-  return `images/anatomy-${demo || "press"}.gif`;
+function workoutClipPath(name) {
+  return `images/workouts/${slugExercise(name)}.gif`;
+}
+
+function workoutMusclePath(name) {
+  return `images/workouts/${slugExercise(name)}-muscles.svg`;
 }
 
 function init() {
@@ -1059,7 +1075,7 @@ function renderLibraryEditor() {
           return `<label class="exercise-option ${checked ? "selected" : ""}">
             <input type="checkbox" data-plan-group="${g.id}" value="${esc(item.name)}" ${checked ? "checked" : ""}>
             <button class="library-thumb" type="button" data-demo-name="${esc(item.name)}" data-demo-muscle="${esc(item.muscle)}" data-demo-type="${esc(item.demo)}" aria-label="Show ${esc(item.name)} demo">
-              <img src="${esc(anatomyStillPath(item.demo))}" alt="${esc(item.name)} demo" loading="lazy">
+              <img src="${esc(workoutStillPath(item.name))}" alt="${esc(item.name)} demo" loading="lazy" onerror="this.onerror=null;this.src='${esc(exerciseImagePath(item.name))}';">
             </button>
             <span><strong>${esc(item.name)}</strong><br><span class="muted small">${esc(item.muscle)} · ${WORKOUT_SET_COUNT} sets · ${esc(item.target)} reps</span></span>
             <span class="order-controls" ${checked ? "" : "hidden"}>
@@ -1145,8 +1161,9 @@ function startSession(groupId, workoutDate) {
       target:item.target,
       rest:getProfileRestSeconds(),
       demo:item.demo,
-      image:anatomyStillPath(item.demo),
-      clip:anatomyClipPath(item.demo),
+      image:workoutStillPath(item.name),
+      clip:workoutClipPath(item.name),
+      muscles:workoutMusclePath(item.name),
       last,
       sets:Array.from({length:WORKOUT_SET_COUNT}, () => ({weight:last?.weight ? String(last.weight) : "", reps:"", done:false}))
     };
@@ -1238,14 +1255,18 @@ function openExerciseDemo(name, muscle, demo) {
   $("exerciseDemoTitle").textContent = name || "Exercise Demo";
   $("exerciseDemoMuscles").textContent = muscle ? `${muscle} target muscles highlighted` : "Target muscles highlighted";
   const clip = $("exerciseDemoClip");
-  clip.src = anatomyClipPath(demo);
+  clip.src = workoutClipPath(name);
   clip.alt = `${name || "Exercise"} movement clip`;
+  const muscleMap = $("exerciseDemoMuscleMap");
+  muscleMap.src = workoutMusclePath(name);
+  muscleMap.alt = `${name || "Exercise"} muscle highlights`;
   $("exerciseDemoModal").hidden = false;
 }
 
 function closeExerciseDemo() {
   $("exerciseDemoModal").hidden = true;
   $("exerciseDemoClip").removeAttribute("src");
+  $("exerciseDemoMuscleMap").removeAttribute("src");
 }
 
 function syncWorkoutControls() {
@@ -1301,7 +1322,7 @@ function renderExercise(exercise, ei) {
   return `<div class="exercise">
     <div class="exercise-head">
       <button class="demo" type="button" data-demo-name="${esc(exercise.name)}" data-demo-muscle="${esc(exercise.muscle)}" data-demo-type="${esc(exercise.demo)}" aria-label="Show ${esc(exercise.name)} demo">
-        <img src="${esc(anatomyStillPath(exercise.demo))}" alt="${esc(exercise.name)} demo" loading="lazy" onerror="this.onerror=null;this.src='images/demo-${esc(exercise.demo || "press")}.png';">
+        <img src="${esc(workoutStillPath(exercise.name))}" alt="${esc(exercise.name)} demo" loading="lazy" onerror="this.onerror=null;this.src='${esc(exerciseImagePath(exercise.name))}';">
       </button>
       <div>
         <h3>${esc(exercise.name)}</h3>

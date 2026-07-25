@@ -1,0 +1,1283 @@
+{
+  "Machine Chest Press": {
+    "slug": "machine-chest-press",
+    "resolvedName": "Machine Bench Press",
+    "extId": "Machine_Bench_Press",
+    "query": "Machine_Bench_Press",
+    "match": "exact",
+    "still": "images/workouts/machine-chest-press.jpg",
+    "clip": "images/workouts/machine-chest-press.gif",
+    "muscles": "images/workouts/machine-chest-press-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Incline Dumbbell Press": {
+    "slug": "incline-dumbbell-press",
+    "resolvedName": "Incline Dumbbell Press",
+    "extId": "Incline_Dumbbell_Press",
+    "query": "Incline Dumbbell Press",
+    "match": "exact",
+    "still": "images/workouts/incline-dumbbell-press.jpg",
+    "clip": "images/workouts/incline-dumbbell-press.gif",
+    "muscles": "images/workouts/incline-dumbbell-press-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Flat Dumbbell Bench Press": {
+    "slug": "flat-dumbbell-bench-press",
+    "resolvedName": "Dumbbell Bench Press",
+    "extId": "Dumbbell_Bench_Press",
+    "query": "Dumbbell_Bench_Press",
+    "match": "exact",
+    "still": "images/workouts/flat-dumbbell-bench-press.jpg",
+    "clip": "images/workouts/flat-dumbbell-bench-press.gif",
+    "muscles": "images/workouts/flat-dumbbell-bench-press-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Smith Machine Bench Press": {
+    "slug": "smith-machine-bench-press",
+    "resolvedName": "Smith Machine Bench Press",
+    "extId": "Smith_Machine_Bench_Press",
+    "query": "Smith Machine Bench Press",
+    "match": "exact",
+    "still": "images/workouts/smith-machine-bench-press.jpg",
+    "clip": "images/workouts/smith-machine-bench-press.gif",
+    "muscles": "images/workouts/smith-machine-bench-press-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Pec Deck Fly": {
+    "slug": "pec-deck-fly",
+    "resolvedName": "Butterfly",
+    "extId": "Butterfly",
+    "query": "Butterfly",
+    "match": "exact",
+    "still": "images/workouts/pec-deck-fly.jpg",
+    "clip": "images/workouts/pec-deck-fly.gif",
+    "muscles": "images/workouts/pec-deck-fly-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": []
+  },
+  "Cable Crossover": {
+    "slug": "cable-crossover",
+    "resolvedName": "Cable Crossover",
+    "extId": "Cable_Crossover",
+    "query": "Cable Crossover",
+    "match": "exact",
+    "still": "images/workouts/cable-crossover.jpg",
+    "clip": "images/workouts/cable-crossover.gif",
+    "muscles": "images/workouts/cable-crossover-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders"
+    ]
+  },
+  "Low-to-High Cable Fly": {
+    "slug": "low-to-high-cable-fly",
+    "resolvedName": "Incline Cable Flye",
+    "extId": "Incline_Cable_Flye",
+    "query": "Incline_Cable_Flye",
+    "match": "exact",
+    "still": "images/workouts/low-to-high-cable-fly.jpg",
+    "clip": "images/workouts/low-to-high-cable-fly.gif",
+    "muscles": "images/workouts/low-to-high-cable-fly-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders"
+    ]
+  },
+  "Push-Ups": {
+    "slug": "push-ups",
+    "resolvedName": "Pushups",
+    "extId": "Pushups",
+    "query": "Pushups",
+    "match": "exact",
+    "still": "images/workouts/push-ups.jpg",
+    "clip": "images/workouts/push-ups.gif",
+    "muscles": "images/workouts/push-ups-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Assisted Chest Dips": {
+    "slug": "assisted-chest-dips",
+    "resolvedName": "Dips - Chest Version",
+    "extId": "Dips_-_Chest_Version",
+    "query": "Dips_-_Chest_Version",
+    "match": "exact",
+    "still": "images/workouts/assisted-chest-dips.jpg",
+    "clip": "images/workouts/assisted-chest-dips.gif",
+    "muscles": "images/workouts/assisted-chest-dips-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Dumbbell Pullover": {
+    "slug": "dumbbell-pullover",
+    "resolvedName": "Bent-Arm Dumbbell Pullover",
+    "extId": "Bent-Arm_Dumbbell_Pullover",
+    "query": "Dumbbell Pullover",
+    "match": "fuzzy",
+    "still": "images/workouts/dumbbell-pullover.jpg",
+    "clip": "images/workouts/dumbbell-pullover.gif",
+    "muscles": "images/workouts/dumbbell-pullover-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "lats",
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Close-Grip Bench Press": {
+    "slug": "close-grip-bench-press",
+    "resolvedName": "Close-Grip Barbell Bench Press",
+    "extId": "Close-Grip_Barbell_Bench_Press",
+    "query": "Close-Grip_Barbell_Bench_Press",
+    "match": "exact",
+    "still": "images/workouts/close-grip-bench-press.jpg",
+    "clip": "images/workouts/close-grip-bench-press.gif",
+    "muscles": "images/workouts/close-grip-bench-press-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": [
+      "chest",
+      "shoulders"
+    ]
+  },
+  "Cable Tricep Pushdown": {
+    "slug": "cable-tricep-pushdown",
+    "resolvedName": "Triceps Pushdown",
+    "extId": "Triceps_Pushdown",
+    "query": "Triceps_Pushdown",
+    "match": "exact",
+    "still": "images/workouts/cable-tricep-pushdown.jpg",
+    "clip": "images/workouts/cable-tricep-pushdown.gif",
+    "muscles": "images/workouts/cable-tricep-pushdown-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Rope Tricep Pushdown": {
+    "slug": "rope-tricep-pushdown",
+    "resolvedName": "Triceps Pushdown",
+    "extId": "Triceps_Pushdown",
+    "query": "Triceps_Pushdown",
+    "match": "exact",
+    "still": "images/workouts/rope-tricep-pushdown.jpg",
+    "clip": "images/workouts/rope-tricep-pushdown.gif",
+    "muscles": "images/workouts/rope-tricep-pushdown-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Single-Arm Cable Pushdown": {
+    "slug": "single-arm-cable-pushdown",
+    "resolvedName": "Cable One Arm Tricep Extension",
+    "extId": "Cable_One_Arm_Tricep_Extension",
+    "query": "Cable_One_Arm_Tricep_Extension",
+    "match": "exact",
+    "still": "images/workouts/single-arm-cable-pushdown.jpg",
+    "clip": "images/workouts/single-arm-cable-pushdown.gif",
+    "muscles": "images/workouts/single-arm-cable-pushdown-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Overhead Cable Tricep Extension": {
+    "slug": "overhead-cable-tricep-extension",
+    "resolvedName": "Cable Rope Overhead Triceps Extension",
+    "extId": "Cable_Rope_Overhead_Triceps_Extension",
+    "query": "Cable_Rope_Overhead_Triceps_Extension",
+    "match": "exact",
+    "still": "images/workouts/overhead-cable-tricep-extension.jpg",
+    "clip": "images/workouts/overhead-cable-tricep-extension.gif",
+    "muscles": "images/workouts/overhead-cable-tricep-extension-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Overhead Dumbbell Tricep Extension": {
+    "slug": "overhead-dumbbell-tricep-extension",
+    "resolvedName": "Standing Dumbbell Triceps Extension",
+    "extId": "Standing_Dumbbell_Triceps_Extension",
+    "query": "Standing_Dumbbell_Triceps_Extension",
+    "match": "exact",
+    "still": "images/workouts/overhead-dumbbell-tricep-extension.jpg",
+    "clip": "images/workouts/overhead-dumbbell-tricep-extension.gif",
+    "muscles": "images/workouts/overhead-dumbbell-tricep-extension-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Dumbbell Skull Crusher": {
+    "slug": "dumbbell-skull-crusher",
+    "resolvedName": "EZ-Bar Skullcrusher",
+    "extId": "EZ-Bar_Skullcrusher",
+    "query": "EZ-Bar_Skullcrusher",
+    "match": "exact",
+    "still": "images/workouts/dumbbell-skull-crusher.jpg",
+    "clip": "images/workouts/dumbbell-skull-crusher.gif",
+    "muscles": "images/workouts/dumbbell-skull-crusher-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": [
+      "forearms"
+    ]
+  },
+  "Machine Tricep Extension": {
+    "slug": "machine-tricep-extension",
+    "resolvedName": "Machine Triceps Extension",
+    "extId": "Machine_Triceps_Extension",
+    "query": "Machine_Triceps_Extension",
+    "match": "exact",
+    "still": "images/workouts/machine-tricep-extension.jpg",
+    "clip": "images/workouts/machine-tricep-extension.gif",
+    "muscles": "images/workouts/machine-tricep-extension-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Bench Dips": {
+    "slug": "bench-dips",
+    "resolvedName": "Bench Dips",
+    "extId": "Bench_Dips",
+    "query": "Bench Dips",
+    "match": "exact",
+    "still": "images/workouts/bench-dips.jpg",
+    "clip": "images/workouts/bench-dips.gif",
+    "muscles": "images/workouts/bench-dips-muscles.svg",
+    "primaryMuscles": [
+      "triceps"
+    ],
+    "secondaryMuscles": [
+      "chest",
+      "shoulders"
+    ]
+  },
+  "Diamond Push-Ups": {
+    "slug": "diamond-push-ups",
+    "resolvedName": "Pushups (Close and Wide Hand Positions)",
+    "extId": "Pushups_Close_and_Wide_Hand_Positions",
+    "query": "Pushups_Close_and_Wide_Hand_Positions",
+    "match": "exact",
+    "still": "images/workouts/diamond-push-ups.jpg",
+    "clip": "images/workouts/diamond-push-ups.gif",
+    "muscles": "images/workouts/diamond-push-ups-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Lat Pulldown Machine": {
+    "slug": "lat-pulldown-machine",
+    "resolvedName": "Wide-Grip Lat Pulldown",
+    "extId": "Wide-Grip_Lat_Pulldown",
+    "query": "Wide-Grip_Lat_Pulldown",
+    "match": "exact",
+    "still": "images/workouts/lat-pulldown-machine.jpg",
+    "clip": "images/workouts/lat-pulldown-machine.gif",
+    "muscles": "images/workouts/lat-pulldown-machine-muscles.svg",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "middle back",
+      "shoulders"
+    ]
+  },
+  "Wide-Grip Lat Pulldown": {
+    "slug": "wide-grip-lat-pulldown",
+    "resolvedName": "Wide-Grip Lat Pulldown",
+    "extId": "Wide-Grip_Lat_Pulldown",
+    "query": "Wide-Grip Lat Pulldown",
+    "match": "exact",
+    "still": "images/workouts/wide-grip-lat-pulldown.jpg",
+    "clip": "images/workouts/wide-grip-lat-pulldown.gif",
+    "muscles": "images/workouts/wide-grip-lat-pulldown-muscles.svg",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "middle back",
+      "shoulders"
+    ]
+  },
+  "Close-Grip Lat Pulldown": {
+    "slug": "close-grip-lat-pulldown",
+    "resolvedName": "Close-Grip Front Lat Pulldown",
+    "extId": "Close-Grip_Front_Lat_Pulldown",
+    "query": "Close-Grip_Front_Lat_Pulldown",
+    "match": "exact",
+    "still": "images/workouts/close-grip-lat-pulldown.jpg",
+    "clip": "images/workouts/close-grip-lat-pulldown.gif",
+    "muscles": "images/workouts/close-grip-lat-pulldown-muscles.svg",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "middle back",
+      "shoulders"
+    ]
+  },
+  "Assisted Pull-Ups": {
+    "slug": "assisted-pull-ups",
+    "resolvedName": "Band Assisted Pull-Up",
+    "extId": "Band_Assisted_Pull-Up",
+    "query": "Band_Assisted_Pull-Up",
+    "match": "exact",
+    "still": "images/workouts/assisted-pull-ups.jpg",
+    "clip": "images/workouts/assisted-pull-ups.gif",
+    "muscles": "images/workouts/assisted-pull-ups-muscles.svg",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "abdominals",
+      "forearms",
+      "middle back"
+    ]
+  },
+  "Straight-Arm Pulldown": {
+    "slug": "straight-arm-pulldown",
+    "resolvedName": "Straight-Arm Pulldown",
+    "extId": "Straight-Arm_Pulldown",
+    "query": "Straight-Arm Pulldown",
+    "match": "exact",
+    "still": "images/workouts/straight-arm-pulldown.jpg",
+    "clip": "images/workouts/straight-arm-pulldown.gif",
+    "muscles": "images/workouts/straight-arm-pulldown-muscles.svg",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": []
+  },
+  "Seated Cable Row Machine": {
+    "slug": "seated-cable-row-machine",
+    "resolvedName": "Seated Cable Rows",
+    "extId": "Seated_Cable_Rows",
+    "query": "Seated_Cable_Rows",
+    "match": "exact",
+    "still": "images/workouts/seated-cable-row-machine.jpg",
+    "clip": "images/workouts/seated-cable-row-machine.gif",
+    "muscles": "images/workouts/seated-cable-row-machine-muscles.svg",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "lats",
+      "shoulders"
+    ]
+  },
+  "Chest-Supported Dumbbell Row": {
+    "slug": "chest-supported-dumbbell-row",
+    "resolvedName": "Bent Over Two-Dumbbell Row",
+    "extId": "Bent_Over_Two-Dumbbell_Row",
+    "query": "Bent_Over_Two-Dumbbell_Row",
+    "match": "exact",
+    "still": "images/workouts/chest-supported-dumbbell-row.jpg",
+    "clip": "images/workouts/chest-supported-dumbbell-row.gif",
+    "muscles": "images/workouts/chest-supported-dumbbell-row-muscles.svg",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "lats",
+      "shoulders"
+    ]
+  },
+  "Single-Arm Cable Row": {
+    "slug": "single-arm-cable-row",
+    "resolvedName": "Seated One-arm Cable Pulley Rows",
+    "extId": "Seated_One-arm_Cable_Pulley_Rows",
+    "query": "Seated_One-arm_Cable_Pulley_Rows",
+    "match": "exact",
+    "still": "images/workouts/single-arm-cable-row.jpg",
+    "clip": "images/workouts/single-arm-cable-row.gif",
+    "muscles": "images/workouts/single-arm-cable-row-muscles.svg",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "lats",
+      "traps"
+    ]
+  },
+  "Machine Row": {
+    "slug": "machine-row",
+    "resolvedName": "Leverage High Row",
+    "extId": "Leverage_High_Row",
+    "query": "Leverage_High_Row",
+    "match": "exact",
+    "still": "images/workouts/machine-row.jpg",
+    "clip": "images/workouts/machine-row.gif",
+    "muscles": "images/workouts/machine-row-muscles.svg",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "secondaryMuscles": [
+      "lats"
+    ]
+  },
+  "Single-Arm Dumbbell Row": {
+    "slug": "single-arm-dumbbell-row",
+    "resolvedName": "One-Arm Dumbbell Row",
+    "extId": "One-Arm_Dumbbell_Row",
+    "query": "One-Arm_Dumbbell_Row",
+    "match": "exact",
+    "still": "images/workouts/single-arm-dumbbell-row.jpg",
+    "clip": "images/workouts/single-arm-dumbbell-row.gif",
+    "muscles": "images/workouts/single-arm-dumbbell-row-muscles.svg",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "lats",
+      "shoulders"
+    ]
+  },
+  "T-Bar Row Machine": {
+    "slug": "t-bar-row-machine",
+    "resolvedName": "T-Bar Row with Handle",
+    "extId": "T-Bar_Row_with_Handle",
+    "query": "T-Bar_Row_with_Handle",
+    "match": "exact",
+    "still": "images/workouts/t-bar-row-machine.jpg",
+    "clip": "images/workouts/t-bar-row-machine.gif",
+    "muscles": "images/workouts/t-bar-row-machine-muscles.svg",
+    "primaryMuscles": [
+      "middle back"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "lats"
+    ]
+  },
+  "Chest-Supported Machine Row": {
+    "slug": "chest-supported-machine-row",
+    "resolvedName": "Leverage Iso Row",
+    "extId": "Leverage_Iso_Row",
+    "query": "Leverage_Iso_Row",
+    "match": "exact",
+    "still": "images/workouts/chest-supported-machine-row.jpg",
+    "clip": "images/workouts/chest-supported-machine-row.gif",
+    "muscles": "images/workouts/chest-supported-machine-row-muscles.svg",
+    "primaryMuscles": [
+      "lats"
+    ],
+    "secondaryMuscles": [
+      "biceps",
+      "middle back"
+    ]
+  },
+  "Cable Face Pulls": {
+    "slug": "cable-face-pulls",
+    "resolvedName": "Face Pull",
+    "extId": "Face_Pull",
+    "query": "Face_Pull",
+    "match": "exact",
+    "still": "images/workouts/cable-face-pulls.jpg",
+    "clip": "images/workouts/cable-face-pulls.gif",
+    "muscles": "images/workouts/cable-face-pulls-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": [
+      "middle back"
+    ]
+  },
+  "Back Extension": {
+    "slug": "back-extension",
+    "resolvedName": "Hyperextensions (Back Extensions)",
+    "extId": "Hyperextensions_Back_Extensions",
+    "query": "Back Extension",
+    "match": "fuzzy",
+    "still": "images/workouts/back-extension.jpg",
+    "clip": "images/workouts/back-extension.gif",
+    "muscles": "images/workouts/back-extension-muscles.svg",
+    "primaryMuscles": [
+      "lower back"
+    ],
+    "secondaryMuscles": [
+      "glutes",
+      "hamstrings"
+    ]
+  },
+  "Cable Bicep Curls": {
+    "slug": "cable-bicep-curls",
+    "resolvedName": "Standing Biceps Cable Curl",
+    "extId": "Standing_Biceps_Cable_Curl",
+    "query": "Standing_Biceps_Cable_Curl",
+    "match": "exact",
+    "still": "images/workouts/cable-bicep-curls.jpg",
+    "clip": "images/workouts/cable-bicep-curls.gif",
+    "muscles": "images/workouts/cable-bicep-curls-muscles.svg",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Dumbbell Hammer Curls": {
+    "slug": "dumbbell-hammer-curls",
+    "resolvedName": "Hammer Curls",
+    "extId": "Hammer_Curls",
+    "query": "Hammer_Curls",
+    "match": "exact",
+    "still": "images/workouts/dumbbell-hammer-curls.jpg",
+    "clip": "images/workouts/dumbbell-hammer-curls.gif",
+    "muscles": "images/workouts/dumbbell-hammer-curls-muscles.svg",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Alternating Dumbbell Curls": {
+    "slug": "alternating-dumbbell-curls",
+    "resolvedName": "Alternate Hammer Curl",
+    "extId": "Alternate_Hammer_Curl",
+    "query": "Alternate_Hammer_Curl",
+    "match": "exact",
+    "still": "images/workouts/alternating-dumbbell-curls.jpg",
+    "clip": "images/workouts/alternating-dumbbell-curls.gif",
+    "muscles": "images/workouts/alternating-dumbbell-curls-muscles.svg",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": [
+      "forearms"
+    ]
+  },
+  "Incline Dumbbell Curls": {
+    "slug": "incline-dumbbell-curls",
+    "resolvedName": "Alternate Incline Dumbbell Curl",
+    "extId": "Alternate_Incline_Dumbbell_Curl",
+    "query": "Alternate_Incline_Dumbbell_Curl",
+    "match": "exact",
+    "still": "images/workouts/incline-dumbbell-curls.jpg",
+    "clip": "images/workouts/incline-dumbbell-curls.gif",
+    "muscles": "images/workouts/incline-dumbbell-curls-muscles.svg",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": [
+      "forearms"
+    ]
+  },
+  "Preacher Curl Machine": {
+    "slug": "preacher-curl-machine",
+    "resolvedName": "Preacher Curl",
+    "extId": "Preacher_Curl",
+    "query": "Preacher_Curl",
+    "match": "exact",
+    "still": "images/workouts/preacher-curl-machine.jpg",
+    "clip": "images/workouts/preacher-curl-machine.gif",
+    "muscles": "images/workouts/preacher-curl-machine-muscles.svg",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "EZ-Bar Curls": {
+    "slug": "ez-bar-curls",
+    "resolvedName": "EZ-Bar Curl",
+    "extId": "EZ-Bar_Curl",
+    "query": "EZ-Bar_Curl",
+    "match": "exact",
+    "still": "images/workouts/ez-bar-curls.jpg",
+    "clip": "images/workouts/ez-bar-curls.gif",
+    "muscles": "images/workouts/ez-bar-curls-muscles.svg",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Seated Dumbbell Shoulder Press": {
+    "slug": "seated-dumbbell-shoulder-press",
+    "resolvedName": "Seated Dumbbell Press",
+    "extId": "Seated_Dumbbell_Press",
+    "query": "Seated_Dumbbell_Press",
+    "match": "exact",
+    "still": "images/workouts/seated-dumbbell-shoulder-press.jpg",
+    "clip": "images/workouts/seated-dumbbell-shoulder-press.gif",
+    "muscles": "images/workouts/seated-dumbbell-shoulder-press-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": [
+      "triceps"
+    ]
+  },
+  "Machine Shoulder Press": {
+    "slug": "machine-shoulder-press",
+    "resolvedName": "Machine Shoulder (Military) Press",
+    "extId": "Machine_Shoulder_Military_Press",
+    "query": "Machine_Shoulder_Military_Press",
+    "match": "exact",
+    "still": "images/workouts/machine-shoulder-press.jpg",
+    "clip": "images/workouts/machine-shoulder-press.gif",
+    "muscles": "images/workouts/machine-shoulder-press-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": [
+      "triceps"
+    ]
+  },
+  "Arnold Press": {
+    "slug": "arnold-press",
+    "resolvedName": "Arnold Dumbbell Press",
+    "extId": "Arnold_Dumbbell_Press",
+    "query": "Arnold_Dumbbell_Press",
+    "match": "exact",
+    "still": "images/workouts/arnold-press.jpg",
+    "clip": "images/workouts/arnold-press.gif",
+    "muscles": "images/workouts/arnold-press-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": [
+      "triceps"
+    ]
+  },
+  "Cable Lateral Raise": {
+    "slug": "cable-lateral-raise",
+    "resolvedName": "Cable Seated Lateral Raise",
+    "extId": "Cable_Seated_Lateral_Raise",
+    "query": "Cable_Seated_Lateral_Raise",
+    "match": "exact",
+    "still": "images/workouts/cable-lateral-raise.jpg",
+    "clip": "images/workouts/cable-lateral-raise.gif",
+    "muscles": "images/workouts/cable-lateral-raise-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": [
+      "middle back",
+      "traps"
+    ]
+  },
+  "Dumbbell Lateral Raise": {
+    "slug": "dumbbell-lateral-raise",
+    "resolvedName": "Side Lateral Raise",
+    "extId": "Side_Lateral_Raise",
+    "query": "Side_Lateral_Raise",
+    "match": "exact",
+    "still": "images/workouts/dumbbell-lateral-raise.jpg",
+    "clip": "images/workouts/dumbbell-lateral-raise.gif",
+    "muscles": "images/workouts/dumbbell-lateral-raise-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": []
+  },
+  "Machine Lateral Raise": {
+    "slug": "machine-lateral-raise",
+    "resolvedName": "Seated Side Lateral Raise",
+    "extId": "Seated_Side_Lateral_Raise",
+    "query": "Seated_Side_Lateral_Raise",
+    "match": "exact",
+    "still": "images/workouts/machine-lateral-raise.jpg",
+    "clip": "images/workouts/machine-lateral-raise.gif",
+    "muscles": "images/workouts/machine-lateral-raise-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": []
+  },
+  "Dumbbell Front Raise": {
+    "slug": "dumbbell-front-raise",
+    "resolvedName": "Side Laterals to Front Raise",
+    "extId": "Side_Laterals_to_Front_Raise",
+    "query": "Side_Laterals_to_Front_Raise",
+    "match": "exact",
+    "still": "images/workouts/dumbbell-front-raise.jpg",
+    "clip": "images/workouts/dumbbell-front-raise.gif",
+    "muscles": "images/workouts/dumbbell-front-raise-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": [
+      "traps"
+    ]
+  },
+  "Rear Delt Dumbbell Fly": {
+    "slug": "rear-delt-dumbbell-fly",
+    "resolvedName": "Bent Over Dumbbell Rear Delt Raise With Head On Bench",
+    "extId": "Bent_Over_Dumbbell_Rear_Delt_Raise_With_Head_On_Bench",
+    "query": "Bent_Over_Dumbbell_Rear_Delt_Raise_With_Head_On_Bench",
+    "match": "exact",
+    "still": "images/workouts/rear-delt-dumbbell-fly.jpg",
+    "clip": "images/workouts/rear-delt-dumbbell-fly.gif",
+    "muscles": "images/workouts/rear-delt-dumbbell-fly-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": []
+  },
+  "Reverse Pec Deck": {
+    "slug": "reverse-pec-deck",
+    "resolvedName": "Reverse Machine Flyes",
+    "extId": "Reverse_Machine_Flyes",
+    "query": "Reverse_Machine_Flyes",
+    "match": "exact",
+    "still": "images/workouts/reverse-pec-deck.jpg",
+    "clip": "images/workouts/reverse-pec-deck.gif",
+    "muscles": "images/workouts/reverse-pec-deck-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": []
+  },
+  "Cable Face Pull": {
+    "slug": "cable-face-pull",
+    "resolvedName": "Face Pull",
+    "extId": "Face_Pull",
+    "query": "Face_Pull",
+    "match": "exact",
+    "still": "images/workouts/cable-face-pull.jpg",
+    "clip": "images/workouts/cable-face-pull.gif",
+    "muscles": "images/workouts/cable-face-pull-muscles.svg",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": [
+      "middle back"
+    ]
+  },
+  "Dumbbell Shrugs": {
+    "slug": "dumbbell-shrugs",
+    "resolvedName": "Dumbbell Shrug",
+    "extId": "Dumbbell_Shrug",
+    "query": "Dumbbell_Shrug",
+    "match": "exact",
+    "still": "images/workouts/dumbbell-shrugs.jpg",
+    "clip": "images/workouts/dumbbell-shrugs.gif",
+    "muscles": "images/workouts/dumbbell-shrugs-muscles.svg",
+    "primaryMuscles": [
+      "traps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Cable Upright Row": {
+    "slug": "cable-upright-row",
+    "resolvedName": "Upright Cable Row",
+    "extId": "Upright_Cable_Row",
+    "query": "Upright_Cable_Row",
+    "match": "exact",
+    "still": "images/workouts/cable-upright-row.jpg",
+    "clip": "images/workouts/cable-upright-row.gif",
+    "muscles": "images/workouts/cable-upright-row-muscles.svg",
+    "primaryMuscles": [
+      "traps"
+    ],
+    "secondaryMuscles": [
+      "shoulders"
+    ]
+  },
+  "Floor Plank": {
+    "slug": "floor-plank",
+    "resolvedName": "Plank",
+    "extId": "Plank",
+    "query": "Plank",
+    "match": "exact",
+    "still": "images/workouts/floor-plank.jpg",
+    "clip": "images/workouts/floor-plank.gif",
+    "muscles": "images/workouts/floor-plank-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": []
+  },
+  "Side Plank": {
+    "slug": "side-plank",
+    "resolvedName": "Side Bridge",
+    "extId": "Side_Bridge",
+    "query": "Side_Bridge",
+    "match": "exact",
+    "still": "images/workouts/side-plank.jpg",
+    "clip": "images/workouts/side-plank.gif",
+    "muscles": "images/workouts/side-plank-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": [
+      "shoulders"
+    ]
+  },
+  "Plank Shoulder Taps": {
+    "slug": "plank-shoulder-taps",
+    "resolvedName": "Push Up to Side Plank",
+    "extId": "Push_Up_to_Side_Plank",
+    "query": "Push_Up_to_Side_Plank",
+    "match": "exact",
+    "still": "images/workouts/plank-shoulder-taps.jpg",
+    "clip": "images/workouts/plank-shoulder-taps.gif",
+    "muscles": "images/workouts/plank-shoulder-taps-muscles.svg",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "abdominals",
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Cable Pallof Press": {
+    "slug": "cable-pallof-press",
+    "resolvedName": "Pallof Press",
+    "extId": "Pallof_Press",
+    "query": "Pallof_Press",
+    "match": "exact",
+    "still": "images/workouts/cable-pallof-press.jpg",
+    "clip": "images/workouts/cable-pallof-press.gif",
+    "muscles": "images/workouts/cable-pallof-press-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ]
+  },
+  "Dead Bug": {
+    "slug": "dead-bug",
+    "resolvedName": "Dead Bug",
+    "extId": "Dead_Bug",
+    "query": "Dead Bug",
+    "match": "exact",
+    "still": "images/workouts/dead-bug.jpg",
+    "clip": "images/workouts/dead-bug.gif",
+    "muscles": "images/workouts/dead-bug-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": []
+  },
+  "Cable Crunch": {
+    "slug": "cable-crunch",
+    "resolvedName": "Cable Crunch",
+    "extId": "Cable_Crunch",
+    "query": "Cable Crunch",
+    "match": "exact",
+    "still": "images/workouts/cable-crunch.jpg",
+    "clip": "images/workouts/cable-crunch.gif",
+    "muscles": "images/workouts/cable-crunch-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": []
+  },
+  "Hanging Knee Raise": {
+    "slug": "hanging-knee-raise",
+    "resolvedName": "Knee/Hip Raise On Parallel Bars",
+    "extId": "Knee_Hip_Raise_On_Parallel_Bars",
+    "query": "Knee_Hip_Raise_On_Parallel_Bars",
+    "match": "exact",
+    "still": "images/workouts/hanging-knee-raise.jpg",
+    "clip": "images/workouts/hanging-knee-raise.gif",
+    "muscles": "images/workouts/hanging-knee-raise-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": []
+  },
+  "Ab Wheel Rollout": {
+    "slug": "ab-wheel-rollout",
+    "resolvedName": "Barbell Ab Rollout - On Knees",
+    "extId": "Barbell_Ab_Rollout_-_On_Knees",
+    "query": "Barbell_Ab_Rollout_-_On_Knees",
+    "match": "exact",
+    "still": "images/workouts/ab-wheel-rollout.jpg",
+    "clip": "images/workouts/ab-wheel-rollout.gif",
+    "muscles": "images/workouts/ab-wheel-rollout-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": [
+      "lower back",
+      "shoulders"
+    ]
+  },
+  "Leg Press Machine": {
+    "slug": "leg-press-machine",
+    "resolvedName": "Leg Press",
+    "extId": "Leg_Press",
+    "query": "Leg_Press",
+    "match": "exact",
+    "still": "images/workouts/leg-press-machine.jpg",
+    "clip": "images/workouts/leg-press-machine.gif",
+    "muscles": "images/workouts/leg-press-machine-muscles.svg",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ]
+  },
+  "Hack Squat Machine": {
+    "slug": "hack-squat-machine",
+    "resolvedName": "Hack Squat",
+    "extId": "Hack_Squat",
+    "query": "Hack_Squat",
+    "match": "exact",
+    "still": "images/workouts/hack-squat-machine.jpg",
+    "clip": "images/workouts/hack-squat-machine.gif",
+    "muscles": "images/workouts/hack-squat-machine-muscles.svg",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ]
+  },
+  "Smith Machine Squat": {
+    "slug": "smith-machine-squat",
+    "resolvedName": "Smith Machine Squat",
+    "extId": "Smith_Machine_Squat",
+    "query": "Smith_Machine_Squat",
+    "match": "exact",
+    "still": "images/workouts/smith-machine-squat.jpg",
+    "clip": "images/workouts/smith-machine-squat.gif",
+    "muscles": "images/workouts/smith-machine-squat-muscles.svg",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings",
+      "lower back"
+    ]
+  },
+  "Goblet Squat": {
+    "slug": "goblet-squat",
+    "resolvedName": "Goblet Squat",
+    "extId": "Goblet_Squat",
+    "query": "Goblet Squat",
+    "match": "exact",
+    "still": "images/workouts/goblet-squat.jpg",
+    "clip": "images/workouts/goblet-squat.gif",
+    "muscles": "images/workouts/goblet-squat-muscles.svg",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings",
+      "shoulders"
+    ]
+  },
+  "Dumbbell Romanian Deadlift": {
+    "slug": "dumbbell-romanian-deadlift",
+    "resolvedName": "Romanian Deadlift",
+    "extId": "Romanian_Deadlift",
+    "query": "Romanian_Deadlift",
+    "match": "exact",
+    "still": "images/workouts/dumbbell-romanian-deadlift.jpg",
+    "clip": "images/workouts/dumbbell-romanian-deadlift.gif",
+    "muscles": "images/workouts/dumbbell-romanian-deadlift-muscles.svg",
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "lower back"
+    ]
+  },
+  "Barbell Romanian Deadlift": {
+    "slug": "barbell-romanian-deadlift",
+    "resolvedName": "Romanian Deadlift",
+    "extId": "Romanian_Deadlift",
+    "query": "Romanian_Deadlift",
+    "match": "exact",
+    "still": "images/workouts/barbell-romanian-deadlift.jpg",
+    "clip": "images/workouts/barbell-romanian-deadlift.gif",
+    "muscles": "images/workouts/barbell-romanian-deadlift-muscles.svg",
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "lower back"
+    ]
+  },
+  "Dumbbell Step-Ups": {
+    "slug": "dumbbell-step-ups",
+    "resolvedName": "Dumbbell Step Ups",
+    "extId": "Dumbbell_Step_Ups",
+    "query": "Dumbbell_Step_Ups",
+    "match": "exact",
+    "still": "images/workouts/dumbbell-step-ups.jpg",
+    "clip": "images/workouts/dumbbell-step-ups.gif",
+    "muscles": "images/workouts/dumbbell-step-ups-muscles.svg",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ]
+  },
+  "Bulgarian Split Squat": {
+    "slug": "bulgarian-split-squat",
+    "resolvedName": "Split Squat with Dumbbells",
+    "extId": "Split_Squat_with_Dumbbells",
+    "query": "Split_Squat_with_Dumbbells",
+    "match": "exact",
+    "still": "images/workouts/bulgarian-split-squat.jpg",
+    "clip": "images/workouts/bulgarian-split-squat.gif",
+    "muscles": "images/workouts/bulgarian-split-squat-muscles.svg",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "glutes",
+      "hamstrings"
+    ]
+  },
+  "Leg Extensions Machine": {
+    "slug": "leg-extensions-machine",
+    "resolvedName": "Leg Extensions",
+    "extId": "Leg_Extensions",
+    "query": "Leg_Extensions",
+    "match": "exact",
+    "still": "images/workouts/leg-extensions-machine.jpg",
+    "clip": "images/workouts/leg-extensions-machine.gif",
+    "muscles": "images/workouts/leg-extensions-machine-muscles.svg",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": []
+  },
+  "Lying Leg Curl": {
+    "slug": "lying-leg-curl",
+    "resolvedName": "Lying Leg Curls",
+    "extId": "Lying_Leg_Curls",
+    "query": "Lying_Leg_Curls",
+    "match": "exact",
+    "still": "images/workouts/lying-leg-curl.jpg",
+    "clip": "images/workouts/lying-leg-curl.gif",
+    "muscles": "images/workouts/lying-leg-curl-muscles.svg",
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "secondaryMuscles": []
+  },
+  "Seated Hamstring Curl": {
+    "slug": "seated-hamstring-curl",
+    "resolvedName": "Seated Leg Curl",
+    "extId": "Seated_Leg_Curl",
+    "query": "Seated_Leg_Curl",
+    "match": "exact",
+    "still": "images/workouts/seated-hamstring-curl.jpg",
+    "clip": "images/workouts/seated-hamstring-curl.gif",
+    "muscles": "images/workouts/seated-hamstring-curl-muscles.svg",
+    "primaryMuscles": [
+      "hamstrings"
+    ],
+    "secondaryMuscles": []
+  },
+  "Walking Lunges": {
+    "slug": "walking-lunges",
+    "resolvedName": "Bodyweight Walking Lunge",
+    "extId": "Bodyweight_Walking_Lunge",
+    "query": "Bodyweight_Walking_Lunge",
+    "match": "exact",
+    "still": "images/workouts/walking-lunges.jpg",
+    "clip": "images/workouts/walking-lunges.gif",
+    "muscles": "images/workouts/walking-lunges-muscles.svg",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ]
+  },
+  "Standing Calf Raises": {
+    "slug": "standing-calf-raises",
+    "resolvedName": "Standing Calf Raises",
+    "extId": "Standing_Calf_Raises",
+    "query": "Standing_Calf_Raises",
+    "match": "exact",
+    "still": "images/workouts/standing-calf-raises.jpg",
+    "clip": "images/workouts/standing-calf-raises.gif",
+    "muscles": "images/workouts/standing-calf-raises-muscles.svg",
+    "primaryMuscles": [
+      "calves"
+    ],
+    "secondaryMuscles": []
+  },
+  "Seated Calf Raises": {
+    "slug": "seated-calf-raises",
+    "resolvedName": "Seated Calf Raise",
+    "extId": "Seated_Calf_Raise",
+    "query": "Seated_Calf_Raise",
+    "match": "exact",
+    "still": "images/workouts/seated-calf-raises.jpg",
+    "clip": "images/workouts/seated-calf-raises.gif",
+    "muscles": "images/workouts/seated-calf-raises-muscles.svg",
+    "primaryMuscles": [
+      "calves"
+    ],
+    "secondaryMuscles": []
+  },
+  "Hip Thrust Machine": {
+    "slug": "hip-thrust-machine",
+    "resolvedName": "Barbell Hip Thrust",
+    "extId": "Barbell_Hip_Thrust",
+    "query": "Barbell_Hip_Thrust",
+    "match": "exact",
+    "still": "images/workouts/hip-thrust-machine.jpg",
+    "clip": "images/workouts/hip-thrust-machine.gif",
+    "muscles": "images/workouts/hip-thrust-machine-muscles.svg",
+    "primaryMuscles": [
+      "glutes"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "hamstrings"
+    ]
+  },
+  "Glute Bridge": {
+    "slug": "glute-bridge",
+    "resolvedName": "Barbell Glute Bridge",
+    "extId": "Barbell_Glute_Bridge",
+    "query": "Barbell_Glute_Bridge",
+    "match": "exact",
+    "still": "images/workouts/glute-bridge.jpg",
+    "clip": "images/workouts/glute-bridge.gif",
+    "muscles": "images/workouts/glute-bridge-muscles.svg",
+    "primaryMuscles": [
+      "glutes"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "hamstrings"
+    ]
+  },
+  "Hip Abductor Machine": {
+    "slug": "hip-abductor-machine",
+    "resolvedName": "Thigh Abductor",
+    "extId": "Thigh_Abductor",
+    "query": "Thigh_Abductor",
+    "match": "exact",
+    "still": "images/workouts/hip-abductor-machine.jpg",
+    "clip": "images/workouts/hip-abductor-machine.gif",
+    "muscles": "images/workouts/hip-abductor-machine-muscles.svg",
+    "primaryMuscles": [
+      "abductors"
+    ],
+    "secondaryMuscles": [
+      "glutes"
+    ]
+  },
+  "Captain's Chair Knee Raises": {
+    "slug": "captains-chair-knee-raises",
+    "resolvedName": "Knee/Hip Raise On Parallel Bars",
+    "extId": "Knee_Hip_Raise_On_Parallel_Bars",
+    "query": "Knee_Hip_Raise_On_Parallel_Bars",
+    "match": "exact",
+    "still": "images/workouts/captains-chair-knee-raises.jpg",
+    "clip": "images/workouts/captains-chair-knee-raises.gif",
+    "muscles": "images/workouts/captains-chair-knee-raises-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": []
+  },
+  "Cable Woodchoppers": {
+    "slug": "cable-woodchoppers",
+    "resolvedName": "Standing Cable Wood Chop",
+    "extId": "Standing_Cable_Wood_Chop",
+    "query": "Standing_Cable_Wood_Chop",
+    "match": "exact",
+    "still": "images/workouts/cable-woodchoppers.jpg",
+    "clip": "images/workouts/cable-woodchoppers.gif",
+    "muscles": "images/workouts/cable-woodchoppers-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": [
+      "shoulders"
+    ]
+  },
+  "Hanging Leg Raises": {
+    "slug": "hanging-leg-raises",
+    "resolvedName": "Hanging Leg Raise",
+    "extId": "Hanging_Leg_Raise",
+    "query": "Hanging_Leg_Raise",
+    "match": "exact",
+    "still": "images/workouts/hanging-leg-raises.jpg",
+    "clip": "images/workouts/hanging-leg-raises.gif",
+    "muscles": "images/workouts/hanging-leg-raises-muscles.svg",
+    "primaryMuscles": [
+      "abdominals"
+    ],
+    "secondaryMuscles": []
+  }
+}
