@@ -1029,18 +1029,18 @@
   },
   "Dumbbell Romanian Deadlift": {
     "slug": "dumbbell-romanian-deadlift",
-    "resolvedName": "Stiff-Legged Dumbbell Deadlift",
-    "extId": "Stiff-Legged_Dumbbell_Deadlift",
-    "query": "Stiff-Legged_Dumbbell_Deadlift",
-    "match": "exact",
+    "resolvedName": "Custom Dumbbell Romanian Deadlift",
+    "extId": "custom_dumbbell_romanian_deadlift",
+    "query": "custom",
+    "match": "custom",
     "still": "images/workouts/dumbbell-romanian-deadlift.jpg",
     "clip": "images/workouts/dumbbell-romanian-deadlift.gif",
     "muscles": "images/workouts/dumbbell-romanian-deadlift-muscles.svg",
     "primaryMuscles": [
-      "hamstrings"
+      "hamstrings",
+      "glutes"
     ],
     "secondaryMuscles": [
-      "glutes",
       "lower back"
     ]
   },
