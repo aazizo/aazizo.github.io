@@ -446,7 +446,7 @@
         </label>
       </div>
       <div class="notice" id="dayNote"></div>
-      <div class="row">
+      <div class="row" id="workoutButtons">
         <button class="primary" id="startBtn">Start Workout</button>
         <button class="secondary" id="resumeBtn">Resume Saved Workout</button>
       </div>
@@ -1112,6 +1112,7 @@ function startSession(groupId, workoutDate) {
 
 function renderSession() {
   const box = $("sessionArea");
+  syncWorkoutControls();
   if (!activeSession) {
     box.innerHTML = '<div class="panel"><p class="muted empty-root">No active workout for the selected day.</p></div>';
     return;
@@ -1139,8 +1140,23 @@ function renderSession() {
   box.querySelectorAll("[data-check-e]").forEach(btn => btn.onclick = e => {
     const ei = +e.currentTarget.dataset.checkE;
     const si = +e.currentTarget.dataset.checkS;
-    const set = activeSession.exercises[ei].sets[si];
-    set.done = !set.done;
+    const exercise = activeSession.exercises[ei];
+    const set = exercise.sets[si];
+    if (set.done) {
+      set.done = false;
+      save(K.active, activeSession);
+      renderSession();
+      return;
+    }
+    fillSetFromPrevious(exercise, si);
+    const missing = missingSetFields(set);
+    if (missing.length) {
+      save(K.active, activeSession);
+      renderSession();
+      alert(`Add ${formatMissingSetFields(missing)} before recording this set.`);
+      return;
+    }
+    set.done = true;
     save(K.active, activeSession);
     if (set.done) setTimer(getProfileRestSeconds(), true, `${activeSession.exercises[ei].name} rest`);
     renderSession();
@@ -1150,6 +1166,35 @@ function renderSession() {
     save(K.active, activeSession);
   };
   $("finishWorkout").onclick = finishWorkout;
+}
+
+function syncWorkoutControls() {
+  $("workoutButtons").hidden = !!activeSession;
+}
+
+function hasSetValue(value) {
+  return Number(String(value).trim()) > 0;
+}
+
+function missingSetFields(set) {
+  const missing = [];
+  if (!hasSetValue(set.weight)) missing.push("weight");
+  if (!hasSetValue(set.reps)) missing.push("reps");
+  return missing;
+}
+
+function formatMissingSetFields(missing) {
+  return missing.length === 2 ? "weight and reps" : missing[0];
+}
+
+function fillSetFromPrevious(exercise, setIndex) {
+  const set = exercise.sets[setIndex];
+  for (let i = setIndex - 1; i >= 0; i--) {
+    const previous = exercise.sets[i];
+    if (!hasSetValue(set.weight) && hasSetValue(previous.weight)) set.weight = previous.weight;
+    if (!hasSetValue(set.reps) && hasSetValue(previous.reps)) set.reps = previous.reps;
+    if (!missingSetFields(set).length) return;
+  }
 }
 
 function ensureSessionSetCount() {
