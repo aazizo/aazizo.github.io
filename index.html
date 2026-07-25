@@ -266,13 +266,17 @@
       align-items:center;
     }
     .demo {
+      display:block;
+      width:100%;
+      padding:0;
       height:176px;
       border-radius:8px;
       border:1px solid var(--border);
-      background:linear-gradient(180deg, color-mix(in srgb, var(--panel-soft) 78%, transparent), var(--panel));
+      background:#fff;
       overflow:hidden;
     }
     .demo img { width:100%; height:100%; display:block; object-fit:contain; }
+    .demo:hover,.library-thumb:hover { border-color:var(--primary); }
     .set-row {
       display:grid;
       grid-template-columns:48px minmax(0,1fr) minmax(0,1fr) 48px;
@@ -336,13 +340,16 @@
       cursor:not-allowed;
     }
     .library-thumb {
+      display:block;
+      width:100%;
+      padding:0;
       height:72px;
       border:1px solid var(--border);
       border-radius:8px;
       overflow:hidden;
       background:#f8fafc;
     }
-    .library-thumb img { width:100%; height:100%; display:block; object-fit:cover; }
+    .library-thumb img { width:100%; height:100%; display:block; object-fit:contain; background:#fff; }
     .schedule-row {
       display:grid;
       grid-template-columns:92px minmax(0,1fr);
@@ -374,6 +381,19 @@
       padding:16px;
     }
     .modal h2 { margin-bottom:6px; }
+    .demo-modal {
+      width:min(760px,100%);
+    }
+    .demo-clip {
+      width:100%;
+      aspect-ratio:4 / 3;
+      display:block;
+      object-fit:contain;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:8px;
+      margin-top:12px;
+    }
     @media (min-width:760px) {
       .tabs {
         position:sticky;
@@ -631,6 +651,19 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="exerciseDemoModal" hidden>
+  <div class="modal demo-modal" role="dialog" aria-modal="true" aria-labelledby="exerciseDemoTitle">
+    <div class="row between">
+      <div>
+        <h2 id="exerciseDemoTitle">Exercise Demo</h2>
+        <p class="muted small" id="exerciseDemoMuscles"></p>
+      </div>
+      <button class="secondary" id="exerciseDemoClose" type="button">Close</button>
+    </div>
+    <img class="demo-clip" id="exerciseDemoClip" alt="" />
+  </div>
+</div>
+
 <script>
 const WEEKDAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const GROUPS = [
@@ -816,6 +849,14 @@ function exerciseImagePath(name) {
   return `images/ex-${slugExercise(name)}.png`;
 }
 
+function anatomyStillPath(demo) {
+  return `images/anatomy-${demo || "press"}.png`;
+}
+
+function anatomyClipPath(demo) {
+  return `images/anatomy-${demo || "press"}.gif`;
+}
+
 function init() {
   migrateOldData();
   fillSelectors();
@@ -905,6 +946,13 @@ function bindActions() {
   $("tourSkip").onclick = closeTour;
   $("tourBack").onclick = previousTourStep;
   $("tourNext").onclick = nextTourStep;
+  $("exerciseDemoClose").onclick = closeExerciseDemo;
+  $("exerciseDemoModal").addEventListener("click", e => {
+    if (e.target.id === "exerciseDemoModal") closeExerciseDemo();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !$("exerciseDemoModal").hidden) closeExerciseDemo();
+  });
   $("saveSchedule").onclick = saveScheduleFromEditor;
   $("resetSchedule").onclick = () => {
     schedule = {...DEFAULT_SCHEDULE};
@@ -1010,9 +1058,9 @@ function renderLibraryEditor() {
           const selectedIndex = selectedNames.indexOf(item.name);
           return `<label class="exercise-option ${checked ? "selected" : ""}">
             <input type="checkbox" data-plan-group="${g.id}" value="${esc(item.name)}" ${checked ? "checked" : ""}>
-            <span class="library-thumb">
-              <img src="${esc(exerciseImagePath(item.name))}" alt="${esc(item.name)} demo" loading="lazy">
-            </span>
+            <button class="library-thumb" type="button" data-demo-name="${esc(item.name)}" data-demo-muscle="${esc(item.muscle)}" data-demo-type="${esc(item.demo)}" aria-label="Show ${esc(item.name)} demo">
+              <img src="${esc(anatomyStillPath(item.demo))}" alt="${esc(item.name)} demo" loading="lazy">
+            </button>
             <span><strong>${esc(item.name)}</strong><br><span class="muted small">${esc(item.muscle)} · ${WORKOUT_SET_COUNT} sets · ${esc(item.target)} reps</span></span>
             <span class="order-controls" ${checked ? "" : "hidden"}>
               <button class="secondary" type="button" data-order-group="${g.id}" data-order-name="${esc(item.name)}" data-direction="-1" aria-label="Move ${esc(item.name)} up" title="Move up" ${selectedIndex <= 0 ? "disabled" : ""}>↑</button>
@@ -1028,6 +1076,7 @@ function renderLibraryEditor() {
   $("libraryEditor").querySelectorAll("[data-order-group]").forEach(btn => {
     btn.addEventListener("click", moveLibraryExercise);
   });
+  bindExerciseDemoButtons($("libraryEditor"));
 }
 
 function selectedExerciseNames(groupId) {
@@ -1096,7 +1145,8 @@ function startSession(groupId, workoutDate) {
       target:item.target,
       rest:getProfileRestSeconds(),
       demo:item.demo,
-      image:exerciseImagePath(item.name),
+      image:anatomyStillPath(item.demo),
+      clip:anatomyClipPath(item.demo),
       last,
       sets:Array.from({length:WORKOUT_SET_COUNT}, () => ({weight:last?.weight ? String(last.weight) : "", reps:"", done:false}))
     };
@@ -1171,6 +1221,31 @@ function renderSession() {
     save(K.active, activeSession);
   };
   $("finishWorkout").onclick = finishWorkout;
+  bindExerciseDemoButtons(box);
+}
+
+function bindExerciseDemoButtons(root) {
+  root.querySelectorAll("[data-demo-type]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      e.stopPropagation();
+      openExerciseDemo(btn.dataset.demoName, btn.dataset.demoMuscle, btn.dataset.demoType);
+    });
+  });
+}
+
+function openExerciseDemo(name, muscle, demo) {
+  $("exerciseDemoTitle").textContent = name || "Exercise Demo";
+  $("exerciseDemoMuscles").textContent = muscle ? `${muscle} target muscles highlighted` : "Target muscles highlighted";
+  const clip = $("exerciseDemoClip");
+  clip.src = anatomyClipPath(demo);
+  clip.alt = `${name || "Exercise"} movement clip`;
+  $("exerciseDemoModal").hidden = false;
+}
+
+function closeExerciseDemo() {
+  $("exerciseDemoModal").hidden = true;
+  $("exerciseDemoClip").removeAttribute("src");
 }
 
 function syncWorkoutControls() {
@@ -1225,9 +1300,9 @@ function renderExercise(exercise, ei) {
   const lastText = last ? `Last: ${last.weight || 0} x ${last.reps || 0} on ${formatShortDate(last.date)}` : "No previous record";
   return `<div class="exercise">
     <div class="exercise-head">
-      <div class="demo" aria-label="${esc(exercise.name)} movement demo">
-        <img src="${esc(exercise.image || exerciseImagePath(exercise.name))}" alt="${esc(exercise.name)} demo" loading="lazy" onerror="this.onerror=null;this.src='images/demo-${esc(exercise.demo || "press")}.png';">
-      </div>
+      <button class="demo" type="button" data-demo-name="${esc(exercise.name)}" data-demo-muscle="${esc(exercise.muscle)}" data-demo-type="${esc(exercise.demo)}" aria-label="Show ${esc(exercise.name)} demo">
+        <img src="${esc(anatomyStillPath(exercise.demo))}" alt="${esc(exercise.name)} demo" loading="lazy" onerror="this.onerror=null;this.src='images/demo-${esc(exercise.demo || "press")}.png';">
+      </button>
       <div>
         <h3>${esc(exercise.name)}</h3>
         <div class="muted small">${esc(exercise.muscle)} · Target ${esc(exercise.target)} · ${getProfileRestSeconds()}s rest</div>
