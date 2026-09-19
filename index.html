@@ -105,7 +105,7 @@
     }
     .tabs {
       display:grid;
-      grid-template-columns:repeat(5,1fr);
+      grid-template-columns:repeat(6,minmax(0,1fr));
       gap:4px;
       position:fixed;
       bottom:0;
@@ -343,6 +343,29 @@
       background:#f8fafc;
     }
     .library-thumb img { width:100%; height:100%; display:block; object-fit:cover; }
+    .therapy-heading { margin-bottom:20px; }
+    .therapy-heading p { margin:6px 0 0; }
+    .therapy-level { padding:20px 0; border-top:1px solid var(--border); }
+    .therapy-level h3 { margin:0; font-size:18px; }
+    .therapy-level > .row { margin-bottom:14px; }
+    .therapy-exercises {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+    }
+    .therapy-exercise {
+      min-width:0;
+      padding:16px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-top:3px solid var(--accent);
+      border-radius:8px;
+    }
+    .therapy-exercise h4 { margin:0 0 16px; font-size:16px; line-height:1.4; }
+    .therapy-exercise dl { display:grid; gap:12px; margin:0; }
+    .therapy-exercise dt { color:var(--muted); font-size:12px; margin-bottom:3px; }
+    .therapy-exercise dd { margin:0; font-size:14px; line-height:1.5; }
+    .therapy-level > p { margin:0; }
     .schedule-row {
       display:grid;
       grid-template-columns:92px minmax(0,1fr);
@@ -388,7 +411,8 @@
       .section { margin-left:0; margin-right:0; border:1px solid var(--border); border-radius:8px; }
     }
     @media (max-width:680px) {
-      .grid-2,.grid-3,.grid-4,.library-list { grid-template-columns:1fr; }
+      .tabs { gap:0; padding-left:max(4px, env(safe-area-inset-left)); padding-right:max(4px, env(safe-area-inset-right)); }
+      .grid-2,.grid-3,.grid-4,.library-list,.therapy-exercises { grid-template-columns:1fr; }
       .exercise-head { grid-template-columns:118px 1fr; }
       .demo { height:148px; }
       .exercise-option { grid-template-columns:auto 64px minmax(0,1fr) auto; }
@@ -421,6 +445,7 @@
   <button class="active" data-page="workout">Workout</button>
   <button data-page="schedule">Schedule</button>
   <button data-page="library">Library</button>
+  <button data-page="therapy">Therapy</button>
   <button data-page="history">History</button>
   <button data-page="progress">Progress</button>
 </nav>
@@ -478,6 +503,61 @@
         <button class="secondary" id="resetPlan">Default</button>
       </div>
     </div>
+  </section>
+
+  <section id="therapy" class="page" aria-labelledby="therapyTitle">
+    <div class="therapy-heading">
+      <h2 id="therapyTitle">Therapy</h2>
+      <p class="muted">Distal semimembranosus tendinopathy</p>
+    </div>
+
+    <section class="therapy-level" aria-labelledby="therapyLightTitle">
+      <div class="row between">
+        <h3 id="therapyLightTitle">Light</h3>
+        <span class="muted small">3 exercises</span>
+      </div>
+      <div class="therapy-exercises">
+        <article class="therapy-exercise">
+          <h4>Isometric heel digs</h4>
+          <dl>
+            <div><dt>Frequency</dt><dd>1&ndash;2 times per day</dd></div>
+            <div><dt>Holds</dt><dd>About 4&ndash;5 holds</dd></div>
+            <div><dt>Duration</dt><dd>20&ndash;30 seconds per hold</dd></div>
+          </dl>
+        </article>
+        <article class="therapy-exercise">
+          <h4>Gentle range-of-motion</h4>
+          <dl>
+            <div><dt>Frequency</dt><dd>1&ndash;2 times per day</dd></div>
+            <div><dt>Repetitions / duration</dt><dd>Not specified</dd></div>
+          </dl>
+        </article>
+        <article class="therapy-exercise">
+          <h4>Bridges / light strengthening</h4>
+          <dl>
+            <div><dt>Frequency</dt><dd>Often once per day or every other day</dd></div>
+            <div><dt>Sets</dt><dd>Around 2&ndash;3 sets</dd></div>
+            <div><dt>Repetitions</dt><dd>8&ndash;12 per set</dd></div>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="therapy-level" aria-labelledby="therapyModerateTitle">
+      <div class="row between">
+        <h3 id="therapyModerateTitle">Moderate</h3>
+        <span class="muted small">Coming soon</span>
+      </div>
+      <p class="muted">Exercises will be added later.</p>
+    </section>
+
+    <section class="therapy-level" aria-labelledby="therapyHeavyTitle">
+      <div class="row between">
+        <h3 id="therapyHeavyTitle">Heavy</h3>
+        <span class="muted small">Coming soon</span>
+      </div>
+      <p class="muted">Exercises will be added later.</p>
+    </section>
   </section>
 
   <section id="history" class="page">
