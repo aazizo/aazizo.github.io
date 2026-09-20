@@ -1,9 +1,10 @@
-const CACHE = "workout-tracker-v18";
+const CACHE = "workout-tracker-v19";
 const ASSETS = [
   "./",
   "./index.html",
   "./therapy.js",
   "./therapy-demo.js",
+  "./images/therapy-heel-dig-frames.png",
   "./images/therapy-heel-slide-frames.png",
   "./images/therapy-bridge-frames.png",
   "./images/therapy-heel-dig.png",

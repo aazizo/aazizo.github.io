@@ -6,6 +6,10 @@ const THERAPY_DEMO_ICONS = {
 };
 const THERAPY_DEMO_SEQUENCE = [0,1,2,3,4,5,4,3,2,1];
 const THERAPY_DEMO_DURATIONS = [800,300,300,300,300,800,300,300,300,300];
+const HEEL_DIG_SETUP_MS = 2400;
+const HEEL_DIG_HOLD_MS = 25000;
+const HEEL_DIG_RELEASE_MS = 1800;
+const HEEL_DIG_DEMO_MS = HEEL_DIG_SETUP_MS + HEEL_DIG_HOLD_MS + HEEL_DIG_RELEASE_MS;
 let therapyDemo = null;
 let therapyDemoAnimation = 0;
 const therapyDemoImages = new Map();
@@ -82,11 +86,11 @@ async function openTherapyDemo(id) {
   context.fillRect(0,0,960,480);
   if (!$("therapyDemoDialog").open) $("therapyDemoDialog").showModal();
   try {
-    state.image = await loadTherapyDemoImage(hold ? def.image : `images/therapy-${id}-frames.png`);
+    state.image = await loadTherapyDemoImage(`images/therapy-${id}-frames.png`);
     if (therapyDemo !== state) return;
     ["therapyDemoBack", "therapyDemoPlayback", "therapyDemoNext"].forEach(id => $(id).disabled = false);
     drawTherapyDemo();
-    // Opening the picture is an explicit request to play, including static holds.
+    // Opening the picture is an explicit request to play.
     playTherapyDemo();
   } catch {
     if (therapyDemo !== state) return;
@@ -118,39 +122,81 @@ function drawTherapyDemoStill(image) {
   context.drawImage(image, (960-image.width*scale)/2, (480-image.height*scale)/2, image.width*scale, image.height*scale);
 }
 
+function heelDigDemoPhase(elapsed) {
+  if (elapsed < HEEL_DIG_SETUP_MS) return {name:"setup", pose:5 * elapsed / HEEL_DIG_SETUP_MS};
+  if (elapsed < HEEL_DIG_SETUP_MS + HEEL_DIG_HOLD_MS) return {name:"hold", pose:5};
+  if (elapsed < HEEL_DIG_DEMO_MS) return {name:"release", pose:5 * (HEEL_DIG_DEMO_MS - elapsed) / HEEL_DIG_RELEASE_MS};
+  return {name:"complete", pose:0};
+}
+
+function drawHeelDigDemo(state) {
+  const phase = heelDigDemoPhase(state.elapsed);
+  const context = $("therapyDemoCanvas").getContext("2d");
+  const width = state.image.width / 2;
+  const height = state.image.height / 3;
+  context.fillStyle = "#fff";
+  context.fillRect(0,0,960,480);
+  const drawPose = (frame, opacity) => {
+    context.globalAlpha = opacity;
+    // Register generated rows to the same mat height before blending poses.
+    const offset = Math.floor(frame / 2) * 30 * state.image.height / 1086;
+    context.drawImage(state.image, (frame % 2)*width, Math.floor(frame/2)*height, width, height, 0,offset*480/height,960,480);
+  };
+  const frame = Math.floor(phase.pose);
+  drawPose(frame, 1);
+  if (frame < 5 && phase.pose > frame) drawPose(frame + 1, phase.pose - frame);
+  context.globalAlpha = 1;
+
+  if (phase.name === "hold") {
+    // Animate force cues, not the joints: the isometric contraction stays still.
+    const pulse = ((state.elapsed - HEEL_DIG_SETUP_MS) % 1200) / 1200;
+    context.strokeStyle = "#047857";
+    context.fillStyle = "#047857";
+    context.lineWidth = 5;
+    context.lineCap = "round";
+    [[96,371],[160,412]].forEach(([x,y]) => {
+      context.beginPath();
+      context.moveTo(x,y-58);
+      context.lineTo(x,y-10);
+      context.moveTo(x-10,y-22);
+      context.lineTo(x,y-10);
+      context.lineTo(x+10,y-22);
+      context.stroke();
+      context.globalAlpha = Math.sin(pulse * Math.PI);
+      const arrowY = y - 75 + pulse * 28;
+      context.beginPath();
+      context.moveTo(x-10,arrowY-8);
+      context.lineTo(x,arrowY);
+      context.lineTo(x+10,arrowY-8);
+      context.stroke();
+      context.globalAlpha = 1;
+    });
+  }
+
+  const cues = {
+    setup:"Set up: rest on your back, keep the knees bent and lift the toes with heels on the mat.",
+    hold:"Press the heels into the mat. Keep the legs and hips still.",
+    release:"Release the pressure and relax the feet. Keep the hips on the mat.",
+    complete:"Demonstration complete."
+  };
+  const remaining = Math.ceil((HEEL_DIG_SETUP_MS + HEEL_DIG_HOLD_MS - state.elapsed) / 1000);
+  const position = phase.name === "hold" ? `Hold - ${remaining}s remaining`
+    : phase.name === "setup" ? "Set up" : phase.name === "release" ? "Relax" : "Complete";
+  if ($("therapyDemoCue").textContent !== cues[phase.name]) $("therapyDemoCue").textContent = cues[phase.name];
+  $("therapyDemoPosition").textContent = `${!state.playing && phase.name !== "complete" ? "Paused - " : ""}${position}`;
+  $("therapyDemoProgress").value = state.elapsed / HEEL_DIG_DEMO_MS;
+}
+
 function drawTherapyDemo() {
   const state = therapyDemo;
   if (!state?.image) return;
   const index = therapyDemoFrameAt(state.elapsed);
   const frame = THERAPY_DEMO_SEQUENCE[index];
-  const seconds = Math.min(25, Math.floor(state.elapsed / 1000));
-  const drawKey = state.hold ? `${seconds}:${state.playing}` : frame;
+  const drawKey = state.hold ? `${Math.floor(state.elapsed / 50)}:${state.playing}` : frame;
   if (state.lastDraw === drawKey) return;
   state.lastDraw = drawKey;
   if (state.hold) {
-    const context = $("therapyDemoCanvas").getContext("2d");
-    context.fillStyle = "#fff";
-    context.fillRect(0,0,960,480);
-    context.drawImage(state.image, 0,state.image.height*.3,state.image.width,state.image.height*.5, 0,0,960,480);
-    if (state.elapsed < 25000) {
-      context.strokeStyle = state.playing ? "#059669" : "#64748b";
-      context.lineWidth = 5;
-      context.lineCap = "round";
-      // Downward force markers leave the illustrated body's hold position unchanged.
-      [[77,298],[147,358]].forEach(([x,y]) => {
-        context.beginPath();
-        context.moveTo(x,y-48);
-        context.lineTo(x,y-10);
-        context.moveTo(x-9,y-21);
-        context.lineTo(x,y-10);
-        context.lineTo(x+9,y-21);
-        context.stroke();
-      });
-    }
-    const cue = state.elapsed >= 25000 ? "Relax." : "Press the heels down and hold still. Keep the hips on the mat.";
-    if ($("therapyDemoCue").textContent !== cue) $("therapyDemoCue").textContent = cue;
-    $("therapyDemoPosition").textContent = state.elapsed >= 25000 ? "Hold complete" : `${state.playing ? "Hold" : "Paused"} - ${25-seconds}s remaining`;
-    $("therapyDemoProgress").value = state.elapsed / 25000;
+    drawHeelDigDemo(state);
     return;
   }
   const width = state.image.width / 2;
@@ -171,14 +217,15 @@ function drawTherapyDemo() {
 
 function syncTherapyDemoButton() {
   const playing = !!therapyDemo?.playing;
-  $("therapyDemoPlayback").title = playing ? "Pause demonstration" : "Play demonstration";
+  const complete = therapyDemo?.hold && therapyDemo.elapsed >= HEEL_DIG_DEMO_MS;
+  $("therapyDemoPlayback").title = playing ? "Pause demonstration" : complete ? "Replay demonstration" : "Play demonstration";
   $("therapyDemoPlayback").setAttribute("aria-label", $("therapyDemoPlayback").title);
   $("therapyDemoPlayback").setAttribute("aria-pressed", String(playing));
 }
 
 function playTherapyDemo() {
   if (!therapyDemo?.image || therapyDemo.playing) return;
-  if (therapyDemo.hold && therapyDemo.elapsed >= 25000) therapyDemo.elapsed = 0;
+  if (therapyDemo.hold && therapyDemo.elapsed >= HEEL_DIG_DEMO_MS) therapyDemo.elapsed = 0;
   therapyDemo.playing = true;
   therapyDemo.lastTime = performance.now();
   syncTherapyDemoButton();
@@ -190,9 +237,9 @@ function tickTherapyDemo(now) {
   if (!therapyDemo?.playing || !$("therapyDemoDialog").open) return;
   therapyDemo.elapsed += now - therapyDemo.lastTime;
   therapyDemo.lastTime = now;
-  if (therapyDemo.hold) therapyDemo.elapsed = Math.min(25000, therapyDemo.elapsed);
+  if (therapyDemo.hold) therapyDemo.elapsed = Math.min(HEEL_DIG_DEMO_MS, therapyDemo.elapsed);
   drawTherapyDemo();
-  if (therapyDemo.hold && therapyDemo.elapsed >= 25000) return pauseTherapyDemo();
+  if (therapyDemo.hold && therapyDemo.elapsed >= HEEL_DIG_DEMO_MS) return pauseTherapyDemo();
   therapyDemoAnimation = requestAnimationFrame(tickTherapyDemo);
 }
 
