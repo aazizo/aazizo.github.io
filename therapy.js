@@ -6,6 +6,7 @@ const THERAPY_EXERCISES = [
 let activeTherapy = null;
 
 function initTherapy() {
+  initTherapyDemo();
   activeTherapy = load(K.therapyActive, null);
   $("therapyDate").value = isoDate(new Date());
   $("startTherapy").onclick = startTherapySession;
@@ -66,7 +67,7 @@ function renderTherapy() {
       const lastText = last ? `Last: ${last.sets.map(set => set.value).join(", ")} ${def.unit} on ${formatShortDate(last.date)}` : "No previous record";
       return `<article aria-label="${esc(def.name)}">
         <div class="exercise-head">
-          <img class="therapy-picture" src="${def.image}" alt="${esc(def.alt)}" />
+          ${therapyDemoThumbnail(def)}
           <div><h4>${esc(def.name)}</h4>
             ${def.movement ? `<div class="small">${esc(def.movement)}</div>` : ""}
             <div class="muted small">${esc(def.target)}</div>

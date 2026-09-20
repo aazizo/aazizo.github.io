@@ -363,6 +363,19 @@
     }
     .therapy-exercise h4 { margin:0 0 16px; font-size:16px; line-height:1.4; }
     .therapy-picture { width:100%; aspect-ratio:4/3; object-fit:contain; display:block; background:#fff; border-radius:6px; margin-bottom:14px; }
+    .therapy-demo-trigger { display:block; position:relative; width:100%; padding:0; margin-bottom:14px; background:#fff; border:1px solid var(--border); overflow:hidden; }
+    .therapy-demo-trigger .therapy-picture { margin:0; }
+    .therapy-play-badge { position:absolute; bottom:8px; right:8px; width:32px; height:32px; border-radius:50%; background:var(--primary); color:white; display:grid; place-items:center; }
+    .therapy-play-badge svg,.demo-control svg { width:20px; height:20px; display:block; }
+    .therapy-session .therapy-demo-trigger { margin:0; }
+    .therapy-demo-dialog { width:min(760px,calc(100% - 24px)); max-height:calc(100dvh - 24px); padding:16px; color:var(--text); background:var(--panel); border:1px solid var(--border); border-radius:8px; overflow:auto; }
+    .therapy-demo-dialog::backdrop { background:rgba(15,23,42,.65); }
+    .therapy-demo-dialog h2 { font-size:18px; margin:0; flex:1; min-width:0; }
+    .therapy-demo-dialog canvas { display:block; width:100%; height:auto; aspect-ratio:2/1; background:#fff; border:1px solid var(--border); border-radius:6px; margin:14px 0; }
+    .therapy-demo-dialog .demo-control { width:44px; height:44px; padding:0; display:grid; place-items:center; flex:0 0 44px; }
+    .therapy-demo-dialog button:disabled { opacity:.45; cursor:default; }
+    .therapy-demo-dialog progress { width:100%; height:8px; accent-color:var(--accent); display:block; margin:12px 0; }
+    .therapy-demo-status { min-height:36px; font-size:14px; margin:8px 0; }
     .therapy-session { padding:16px 0; }
     .therapy-session .exercise-head { grid-template-columns:120px minmax(0,1fr); }
     .therapy-session .therapy-picture { aspect-ratio:1; margin:0; }
@@ -690,6 +703,24 @@
   </section>
 </main>
 
+<dialog id="therapyDemoDialog" class="therapy-demo-dialog" aria-labelledby="therapyDemoTitle" aria-describedby="therapyDemoCue">
+  <div class="row between">
+    <h2 id="therapyDemoTitle">Therapy movement</h2>
+    <button type="button" class="secondary demo-control" id="therapyDemoClose" aria-label="Close demonstration" title="Close" autofocus></button>
+  </div>
+  <canvas id="therapyDemoCanvas" width="960" height="480" role="img" aria-label="Therapy movement illustration"></canvas>
+  <p id="therapyDemoCue" class="muted therapy-demo-status" role="status"></p>
+  <progress id="therapyDemoProgress" max="1" value="0" aria-label="Demonstration progress"></progress>
+  <div class="row between">
+    <div class="row">
+      <button type="button" class="secondary demo-control" id="therapyDemoBack" title="Previous pose" aria-label="Previous pose"></button>
+      <button type="button" class="primary demo-control" id="therapyDemoPlay" title="Play demonstration" aria-label="Play demonstration"></button>
+      <button type="button" class="secondary demo-control" id="therapyDemoNext" title="Next pose" aria-label="Next pose"></button>
+    </div>
+    <span class="muted small" id="therapyDemoPosition"></span>
+  </div>
+</dialog>
+
 <div class="modal-backdrop" id="profileModal" hidden>
   <form class="modal" id="profileSetupForm">
     <h2>Set Up Your Profile</h2>
@@ -745,6 +776,7 @@
   </div>
 </div>
 
+<script src="therapy-demo.js"></script>
 <script src="therapy.js"></script>
 <script>
 const WEEKDAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
