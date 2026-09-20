@@ -362,6 +362,19 @@
       border-radius:8px;
     }
     .therapy-exercise h4 { margin:0 0 16px; font-size:16px; line-height:1.4; }
+    .therapy-picture { width:100%; aspect-ratio:4/3; object-fit:contain; display:block; background:#fff; border-radius:6px; margin-bottom:14px; }
+    .therapy-session { padding:16px 0; }
+    .therapy-session .exercise-head { grid-template-columns:120px minmax(0,1fr); }
+    .therapy-session .therapy-picture { aspect-ratio:1; margin:0; }
+    .therapy-session article { padding:18px 0; border-bottom:1px solid var(--border); }
+    .therapy-session h4 { margin:0 0 6px; font-size:16px; }
+    .therapy-set { display:grid; grid-template-columns:60px minmax(0,1fr) 44px; gap:10px; align-items:end; max-width:440px; margin-top:10px; }
+    .therapy-set strong { align-self:center; font-size:13px; }
+    .therapy-set input:disabled { opacity:1; color:var(--accent); }
+    .therapy-session-actions { margin-top:16px; }
+    .therapy-log { margin-top:20px; padding-top:20px; border-top:1px solid var(--border); }
+    .therapy-log h3 { font-size:18px; }
+    .therapy-status { margin:10px 0; min-height:20px; }
     .therapy-exercise dl { display:grid; gap:12px; margin:0; }
     .therapy-exercise dt { color:var(--muted); font-size:12px; margin-bottom:3px; }
     .therapy-exercise dd { margin:0; font-size:14px; line-height:1.5; }
@@ -516,8 +529,17 @@
         <h3 id="therapyLightTitle">Light</h3>
         <span class="muted small">3 exercises</span>
       </div>
-      <div class="therapy-exercises">
+      <div class="row between" id="therapyStartControls">
+        <label class="field">Session date
+          <input id="therapyDate" type="date" required />
+        </label>
+        <button class="primary" id="startTherapy" type="button">Start Light Session</button>
+      </div>
+      <p id="therapyStatus" class="therapy-status muted small" role="status" aria-live="polite"></p>
+      <div id="therapySession" class="therapy-session" hidden></div>
+      <div class="therapy-exercises" id="therapyCatalog">
         <article class="therapy-exercise">
+          <img class="therapy-picture" src="images/therapy-heel-dig.png" alt="Isometric heel dig with heels pressing into the mat and hips resting down" loading="lazy" />
           <h4>Isometric heel digs</h4>
           <dl>
             <div><dt>Frequency</dt><dd>1&ndash;2 times per day</dd></div>
@@ -526,13 +548,16 @@
           </dl>
         </article>
         <article class="therapy-exercise">
+          <img class="therapy-picture" src="images/therapy-heel-slide.png" alt="Lying heel slide with one knee bending and the other leg extended on the mat" loading="lazy" />
           <h4>Gentle range-of-motion</h4>
           <dl>
+            <div><dt>Movement</dt><dd>Lying heel slides</dd></div>
             <div><dt>Frequency</dt><dd>1&ndash;2 times per day</dd></div>
             <div><dt>Repetitions / duration</dt><dd>Not specified</dd></div>
           </dl>
         </article>
         <article class="therapy-exercise">
+          <img class="therapy-picture" src="images/ex-glute-bridge.png" alt="Bodyweight bridge with knees bent and hips lifted" loading="lazy" />
           <h4>Bridges / light strengthening</h4>
           <dl>
             <div><dt>Frequency</dt><dd>Often once per day or every other day</dd></div>
@@ -541,6 +566,11 @@
           </dl>
         </article>
       </div>
+    </section>
+
+    <section class="therapy-log" aria-labelledby="therapyLogTitle">
+      <h3 id="therapyLogTitle">Therapy History</h3>
+      <div id="therapyHistory"></div>
     </section>
 
     <section class="therapy-level" aria-labelledby="therapyModerateTitle">
@@ -571,6 +601,10 @@
       </div>
       <div id="historyList"></div>
     </div>
+    <section class="therapy-log" aria-labelledby="allTherapyHistoryTitle">
+      <h2 id="allTherapyHistoryTitle">Therapy History</h2>
+      <div id="allTherapyHistory"></div>
+    </section>
   </section>
 
   <section id="progress" class="page">
@@ -711,6 +745,7 @@
   </div>
 </div>
 
+<script src="therapy.js"></script>
 <script>
 const WEEKDAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const GROUPS = [
@@ -837,7 +872,9 @@ const K = {
   plan:"wt_plan_v1",
   profile:"wt_profile_v1",
   tour:"wt_tour_done_v1",
-  restTimer:"wt_rest_timer_v1"
+  restTimer:"wt_rest_timer_v1",
+  therapyActive:"wt_therapy_active_v1",
+  therapyHistory:"wt_therapy_history_v1"
 };
 const $ = id => document.getElementById(id);
 const load = (key, fallback) => {
@@ -911,6 +948,7 @@ function init() {
   window.addEventListener("pageshow", syncTimerFromClock);
   bindTabs();
   bindActions();
+  initTherapy();
   applyTheme();
   renderWeekStrip();
   renderScheduleEditor();
@@ -957,6 +995,7 @@ function openPage(page) {
   if (page === "progress") renderProgress();
   if (page === "schedule") renderScheduleEditor();
   if (page === "library") renderLibraryEditor();
+  if (page === "therapy") renderTherapy();
 }
 
 function bindActions() {
@@ -1571,6 +1610,7 @@ function calorieDetail(workout) {
 }
 
 function renderHistory() {
+  renderTherapyHistory();
   const history = load(K.history, []);
   $("historyList").innerHTML = history.length ? history.map(w => {
     const date = w.workoutDate || isoDate(w.finishedAt || w.startedAt);
@@ -1835,10 +1875,12 @@ function getLastPerformance(exerciseName) {
 function exportData() {
   const data = {
     app:"My Workout Tracker",
-    version:2,
+    version:3,
     exportedAt:new Date().toISOString(),
     active:load(K.active,null),
     history:load(K.history,[]),
+    therapyActive:load(K.therapyActive,null),
+    therapyHistory:load(K.therapyHistory,[]),
     weights:load(K.weights,[]),
     profile:load(K.profile,null),
     schedule:load(K.schedule, DEFAULT_SCHEDULE),
@@ -1861,14 +1903,19 @@ function importData(e) {
     try {
       const d = JSON.parse(reader.result);
       if (!d || d.app !== "My Workout Tracker") throw new Error();
+      validateTherapyBackup(d);
       save(K.active, d.active || null);
       save(K.history, d.history || []);
+      if (Object.hasOwn(d, "therapyActive")) save(K.therapyActive, d.therapyActive);
+      if (Object.hasOwn(d, "therapyHistory")) save(K.therapyHistory, d.therapyHistory);
       save(K.weights, d.weights || []);
       save(K.profile, d.profile || null);
       save(K.schedule, d.schedule || DEFAULT_SCHEDULE);
       save(K.plan, d.plan || DEFAULT_PLAN);
       if (d.theme) localStorage.setItem(K.theme, d.theme);
       activeSession = d.active || null;
+      activeTherapy = load(K.therapyActive, null);
+      renderTherapy();
       profile = d.profile || null;
       schedule = load(K.schedule, DEFAULT_SCHEDULE);
       selectedPlan = load(K.plan, DEFAULT_PLAN);
