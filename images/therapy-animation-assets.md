@@ -6,9 +6,9 @@ Generated with the built-in image-generation tool. No external paid video servic
 - `therapy-bridge-frames.png`: six registered poses of a bodyweight bridge.
 - Heel digs reuse `therapy-heel-dig.png` unchanged: an isometric hold has no joint movement.
 
-The browser draws one atlas cell at a time, runs the six poses forward and backward, and supports pause and individual steps. Explicit per-row offsets keep the mat at a consistent height. This is a frame-by-frame illustration, not a smooth AI-generated video. Reduced-motion users start with playback paused.
+The browser draws one atlas cell at a time, runs the six poses forward and backward, and supports pause and individual steps. Explicit per-row offsets keep the mat at a consistent height. This is a frame-by-frame illustration, not a smooth AI-generated video. Tapping an exercise picture explicitly starts playback; tapping the enlarged picture pauses or resumes it. Hiding the tab or changing the reduced-motion preference pauses playback.
 
-The heel-dig demonstration uses a 25-second hold within the user's provided 20-30-second range. Viewing a demonstration does not record an exercise or change the session's rest timer.
+The heel-dig demonstration starts a 25-second hold within the user's provided 20-30-second range when its picture is opened. Downward pressure markers and the countdown show the hold while the body stays still. Viewing a demonstration does not record an exercise or change the session's rest timer.
 
 ## Generation specification
 

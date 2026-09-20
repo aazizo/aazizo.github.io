@@ -1,7 +1,5 @@
 // Control icon paths from Lucide (ISC license in images/lucide-LICENSE).
 const THERAPY_DEMO_ICONS = {
-  play:'<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/>',
-  pause:'<rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/>',
   next:'<path d="M10.029 4.285A2 2 0 0 0 7 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"/><path d="M3 4v16"/>',
   back:'<path d="M13.971 4.285A2 2 0 0 1 17 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z"/><path d="M21 20V4"/>',
   close:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'
@@ -17,9 +15,8 @@ function therapyDemoIcon(name) {
 }
 
 function therapyDemoThumbnail(def) {
-  return `<button class="therapy-demo-trigger" type="button" data-therapy-demo="${def.id}" title="View ${esc(def.movement || def.name)} demonstration" aria-label="View ${esc(def.movement || def.name)} demonstration">
+  return `<button class="therapy-demo-trigger" type="button" data-therapy-demo="${def.id}" title="Play ${esc(def.movement || def.name)} demonstration" aria-label="Play ${esc(def.movement || def.name)} demonstration">
     <img class="therapy-picture" src="${def.image}" alt="${esc(def.alt)}" loading="lazy" />
-    <span class="therapy-play-badge" aria-hidden="true">${therapyDemoIcon("play")}</span>
   </button>`;
 }
 
@@ -30,7 +27,6 @@ function initTherapyDemo() {
   $("therapyDemoClose").innerHTML = therapyDemoIcon("close");
   $("therapyDemoBack").innerHTML = therapyDemoIcon("back");
   $("therapyDemoNext").innerHTML = therapyDemoIcon("next");
-  $("therapyDemoPlay").innerHTML = therapyDemoIcon("play");
   document.addEventListener("click", event => {
     const button = event.target.closest("[data-therapy-demo]");
     if (button) openTherapyDemo(button.dataset.therapyDemo);
@@ -45,7 +41,7 @@ function initTherapyDemo() {
     const box = dialog.getBoundingClientRect();
     if (event.target === dialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) dialog.close();
   });
-  $("therapyDemoPlay").onclick = () => therapyDemo?.playing ? pauseTherapyDemo() : playTherapyDemo();
+  $("therapyDemoPlayback").onclick = () => therapyDemo?.playing ? pauseTherapyDemo() : playTherapyDemo();
   $("therapyDemoBack").onclick = () => stepTherapyDemo(-1);
   $("therapyDemoNext").onclick = () => stepTherapyDemo(1);
   document.addEventListener("visibilitychange", () => { if (document.hidden) pauseTherapyDemo(); });
@@ -78,7 +74,7 @@ async function openTherapyDemo(id) {
   $("therapyDemoCue").textContent = "Loading demonstration...";
   $("therapyDemoPosition").textContent = "";
   $("therapyDemoProgress").value = 0;
-  ["therapyDemoBack", "therapyDemoPlay", "therapyDemoNext"].forEach(id => $(id).disabled = true);
+  ["therapyDemoBack", "therapyDemoPlayback", "therapyDemoNext"].forEach(id => $(id).disabled = true);
   $("therapyDemoBack").hidden = hold;
   $("therapyDemoNext").hidden = hold;
   const context = $("therapyDemoCanvas").getContext("2d");
@@ -88,9 +84,10 @@ async function openTherapyDemo(id) {
   try {
     state.image = await loadTherapyDemoImage(hold ? def.image : `images/therapy-${id}-frames.png`);
     if (therapyDemo !== state) return;
-    ["therapyDemoBack", "therapyDemoPlay", "therapyDemoNext"].forEach(id => $(id).disabled = false);
+    ["therapyDemoBack", "therapyDemoPlayback", "therapyDemoNext"].forEach(id => $(id).disabled = false);
     drawTherapyDemo();
-    if (!hold && !matchMedia("(prefers-reduced-motion: reduce)").matches) playTherapyDemo();
+    // Opening the picture is an explicit request to play, including static holds.
+    playTherapyDemo();
   } catch {
     if (therapyDemo !== state) return;
     $("therapyDemoCue").textContent = "Demonstration unavailable. The exercise picture is shown below.";
@@ -127,7 +124,7 @@ function drawTherapyDemo() {
   const index = therapyDemoFrameAt(state.elapsed);
   const frame = THERAPY_DEMO_SEQUENCE[index];
   const seconds = Math.min(25, Math.floor(state.elapsed / 1000));
-  const drawKey = state.hold ? seconds : frame;
+  const drawKey = state.hold ? `${seconds}:${state.playing}` : frame;
   if (state.lastDraw === drawKey) return;
   state.lastDraw = drawKey;
   if (state.hold) {
@@ -135,8 +132,24 @@ function drawTherapyDemo() {
     context.fillStyle = "#fff";
     context.fillRect(0,0,960,480);
     context.drawImage(state.image, 0,state.image.height*.3,state.image.width,state.image.height*.5, 0,0,960,480);
-    $("therapyDemoCue").textContent = state.elapsed >= 25000 ? "Relax." : "Press the heels into the mat. Keep the hips down and hold the position.";
-    $("therapyDemoPosition").textContent = `${seconds} / 25 seconds`;
+    if (state.elapsed < 25000) {
+      context.strokeStyle = state.playing ? "#059669" : "#64748b";
+      context.lineWidth = 5;
+      context.lineCap = "round";
+      // Downward force markers leave the illustrated body's hold position unchanged.
+      [[77,298],[147,358]].forEach(([x,y]) => {
+        context.beginPath();
+        context.moveTo(x,y-48);
+        context.lineTo(x,y-10);
+        context.moveTo(x-9,y-21);
+        context.lineTo(x,y-10);
+        context.lineTo(x+9,y-21);
+        context.stroke();
+      });
+    }
+    const cue = state.elapsed >= 25000 ? "Relax." : "Press the heels down and hold still. Keep the hips on the mat.";
+    if ($("therapyDemoCue").textContent !== cue) $("therapyDemoCue").textContent = cue;
+    $("therapyDemoPosition").textContent = state.elapsed >= 25000 ? "Hold complete" : `${state.playing ? "Hold" : "Paused"} - ${25-seconds}s remaining`;
     $("therapyDemoProgress").value = state.elapsed / 25000;
     return;
   }
@@ -158,9 +171,9 @@ function drawTherapyDemo() {
 
 function syncTherapyDemoButton() {
   const playing = !!therapyDemo?.playing;
-  $("therapyDemoPlay").innerHTML = therapyDemoIcon(playing ? "pause" : "play");
-  $("therapyDemoPlay").title = playing ? "Pause demonstration" : "Play demonstration";
-  $("therapyDemoPlay").setAttribute("aria-label", $("therapyDemoPlay").title);
+  $("therapyDemoPlayback").title = playing ? "Pause demonstration" : "Play demonstration";
+  $("therapyDemoPlayback").setAttribute("aria-label", $("therapyDemoPlayback").title);
+  $("therapyDemoPlayback").setAttribute("aria-pressed", String(playing));
 }
 
 function playTherapyDemo() {
@@ -169,6 +182,7 @@ function playTherapyDemo() {
   therapyDemo.playing = true;
   therapyDemo.lastTime = performance.now();
   syncTherapyDemoButton();
+  drawTherapyDemo();
   therapyDemoAnimation = requestAnimationFrame(tickTherapyDemo);
 }
 
@@ -187,6 +201,7 @@ function pauseTherapyDemo() {
   therapyDemoAnimation = 0;
   if (therapyDemo) therapyDemo.playing = false;
   syncTherapyDemoButton();
+  drawTherapyDemo();
 }
 
 function stepTherapyDemo(direction) {
