@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gym-rest-notifications",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-08",
+  "account_id": "ba14717ab4cbf32e1a2ac1b5a9b765e7",
+  "workers_dev": true,
+  "vars": {
+    "APP_ORIGIN": "https://aazizo.github.io",
+    "VAPID_SUBJECT": "https://aazizo.github.io/"
+  },
+  "durable_objects": {
+    "bindings": [{"name": "DEVICES", "class_name": "RestDevice"}]
+  },
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["RestDevice"]}],
+  "ratelimits": [{"name": "API_LIMIT", "namespace_id": "1001", "simple": {"limit": 60, "period": 60}}]
+}

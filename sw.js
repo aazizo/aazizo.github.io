@@ -1,8 +1,10 @@
-const CACHE = "workout-tracker-v19";
+const CACHE = "workout-tracker-v20";
 const ASSETS = [
   "./",
   "./index.html",
   "./therapy.js",
+  "./notifications.js",
+  "./push-config.js",
   "./therapy-demo.js",
   "./images/therapy-heel-dig-frames.png",
   "./images/therapy-heel-slide-frames.png",
@@ -39,6 +41,7 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+  if (new URL(event.request.url).origin !== self.location.origin) return;
   if (event.request.method !== "GET") return;
   event.respondWith(
     caches.match(event.request).then(cached => {
@@ -52,4 +55,26 @@ self.addEventListener("fetch", event => {
       });
     })
   );
+});
+
+self.addEventListener("push", event => {
+  event.waitUntil((async()=>{
+    let data = {};
+    try {data = event.data?.json() || {};} catch {}
+    await self.registration.showNotification(data.title || "Workout Tracker",{
+      body:data.body || "Your workout notification is ready.",
+      tag:data.tag || "gym-rest",icon:"./icon.svg",badge:"./icon.svg",
+      data:{url:new URL("./index.html",self.registration.scope).href}
+    });
+  })());
+});
+
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+  event.waitUntil((async()=>{
+    const windows = await self.clients.matchAll({type:"window",includeUncontrolled:true});
+    const existing = windows.find(client=>new URL(client.url).origin===self.location.origin);
+    if (existing) return existing.focus();
+    return self.clients.openWindow(new URL("./index.html",self.registration.scope).href);
+  })());
 });
