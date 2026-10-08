@@ -30,6 +30,6 @@ Set the public endpoint in the repository's `push-config.js`. The browser obtain
 - Alerts expire after 60 seconds; transient push delivery errors retry at most twice. A repeated delivery uses the same notification tag.
 - There is no public broadcast endpoint and no user-provided notification text.
 
-`npm test` covers validation, timer state, retries, cancellation, disabling and client permission/error paths. Cloudflare bundling is verified with `npx wrangler deploy --dry-run`. Actual iPhone locked-screen delivery needs a device test after enabling notifications.
+`npm test` covers validation, timer state, retries, cancellation, disabling and client permission/error paths. A Miniflare runtime test verifies encrypted push requests, rejects provider redirects without following them, and exercises real Durable Object alarms and cancellation. Cloudflare bundling is verified with `npx wrangler deploy --dry-run`. Actual iPhone locked-screen delivery needs a device test after enabling notifications.
 
 References: [Apple Web Push](https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/), [Cloudflare alarms](https://developers.cloudflare.com/durable-objects/api/alarms/), [Free-plan limits](https://developers.cloudflare.com/durable-objects/platform/pricing/).

@@ -95,7 +95,8 @@ export class RestDevice extends DurableObject {
     const payload = await buildPushPayload({data:JSON.stringify(data),options:{ttl:60,urgency:'high'}},subscription,{
       subject:this.env.VAPID_SUBJECT,publicKey:this.env.VAPID_PUBLIC_KEY,privateKey:this.env.VAPID_PRIVATE_KEY
     });
-    return fetch(subscription.endpoint,{...payload,redirect:'error',signal:AbortSignal.timeout(8000)});
+    // Workers supports manual redirects, not error; never follow a push-provider redirect.
+    return fetch(subscription.endpoint,{...payload,redirect:'manual',signal:AbortSignal.timeout(8000)});
   }
 
   alarm() {
