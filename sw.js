@@ -1,4 +1,4 @@
-const CACHE = "workout-tracker-v20";
+const CACHE = "workout-tracker-v21";
 const ASSETS = [
   "./",
   "./index.html",
@@ -27,7 +27,7 @@ const ASSETS = [
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS.map(url => new Request(url,{cache:"reload"})))));
   self.skipWaiting();
 });
 
